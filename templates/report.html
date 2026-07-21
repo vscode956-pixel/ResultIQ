@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ program }} - {{ semester }} Result Analysis</title>
+  <style>
+    body {
+      font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+      margin: 0.8in;
+      color: #1d1d1d;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #333;
+      padding-bottom: 12px;
+    }
+    .branding {
+      max-width: 72%;
+    }
+    .branding h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+    }
+    .branding p {
+      margin: 4px 0 0;
+      font-size: 12px;
+    }
+    .logo img {
+      max-height: 90px;
+      width: auto;
+      display: block;
+    }
+    .section-title {
+      margin: 32px 0 12px;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    th, td {
+      border: 1px solid #666;
+      padding: 8px 10px;
+      vertical-align: top;
+      font-size: 11px;
+    }
+    th {
+      background: #f4f4f4;
+      font-weight: 700;
+      text-align: left;
+    }
+    .signature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+      page-break-inside: avoid;
+    }
+    .signature-block {
+      min-height: 120px;
+      padding: 12px;
+      border-top: 1px solid #333;
+    }
+    .signature-label {
+      margin-top: 40px;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .page-break {
+      page-break-after: always;
+    }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 36px;
+      text-align: center;
+      font-size: 10px;
+      color: #555;
+    }
+    @media print {
+      .footer { position: fixed; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="branding">
+      <h1>SOUNDARYA INSTITUTE OF MANAGEMENT AND SCIENCE</h1>
+      <p>Department of Computer Science</p>
+      <p><strong>Program:</strong> {{ program }} | <strong>Semester:</strong> {{ semester }}</p>
+      <p><strong>Report generated:</strong> {{ generated_at }}</p>
+    </div>
+    <div class="logo">
+      {% if logo_data %}
+      <img src="data:image/png;base64,{{ logo_data }}" alt="Institution logo" />
+      {% endif %}
+    </div>
+  </div>
+
+  <h2 class="section-title">Overall Result Summary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Appeared</th>
+        <th>Distinction</th>
+        <th>First Class</th>
+        <th>Second Class</th>
+        <th>Pass Class</th>
+        <th>Passed</th>
+        <th>Failed</th>
+        <th>Pass %</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in overall_rows %}
+      <tr>
+        {% for value in row %}
+        <td>{{ value }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2 class="section-title">Top Performers</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Name</th>
+        <th>USN</th>
+        <th>Marks</th>
+        <th>%</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for performer in top_performers %}
+      <tr>
+        <td>{{ performer.rank }}</td>
+        <td>{{ performer.name }}</td>
+        <td>{{ performer.usn }}</td>
+        <td>{{ performer.marks }}</td>
+        <td>{{ performer.percentage }}</td>
+      </tr>
+      {% endfor %}
+      {% if not top_performers %}
+      <tr><td colspan="5">No performers available</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <h2 class="section-title">Subject-wise Analysis</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Sl No</th>
+        <th>Code</th>
+        <th>Subject Name</th>
+        <th>Faculty</th>
+        <th>Passed</th>
+        <th>Failed</th>
+        <th>Absent</th>
+        <th>Centum</th>
+        <th>Pass %</th>
+        <th>Topper Marks</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in subject_summary %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ item.code }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.faculty or '' }}</td>
+        <td>{{ item.passed }}</td>
+        <td>{{ item.failed }}</td>
+        <td>{{ item.absent }}</td>
+        <td>{{ item.centum }}</td>
+        <td>{{ item.pass_percentage }}</td>
+        <td>{{ item.topper_marks }}</td>
+      </tr>
+      {% endfor %}
+      {% if not subject_summary %}
+      <tr><td colspan="10">No subject data available</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <h2 class="section-title">Centum Achievers</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Sl No</th>
+        <th>Name</th>
+        <th>USN</th>
+        <th>Subject Code</th>
+        <th>Subject Name</th>
+        <th>Marks</th>
+        <th>Max Marks</th>
+        <th>%</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in centum_achievers %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.usn }}</td>
+        <td>{{ item.subject_code }}</td>
+        <td>{{ item.subject_name }}</td>
+        <td>{{ item.marks }}</td>
+        <td>{{ item.max_marks }}</td>
+        <td>{{ item.percentage }}</td>
+      </tr>
+      {% endfor %}
+      {% if not centum_achievers %}
+      <tr><td colspan="8">No centum achievers available</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <div class="signature-grid">
+    <div class="signature-block">
+      <div class="signature-label">Head of Department</div>
+    </div>
+    <div class="signature-block">
+      <div class="signature-label">Controller of Examination</div>
+    </div>
+    <div class="signature-block">
+      <div class="signature-label">Principal</div>
+    </div>
+  </div>
+
+  <div class="footer">Page <span class="pageNumber"></span></div>
+</body>
+</html>

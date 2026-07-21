@@ -1,0 +1,133 @@
+.analysis-card { margin-top: 24px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 20px; }
+.analysis-card h2 { margin-top: 0; }
+.summary-table-wrapper { overflow-x: auto; margin-top: 16px; }
+.summary-table { width: 100%; border-collapse: collapse; background: #ffffff; color: #111827; }
+.summary-table th,
+.summary-table td { padding: 12px 14px; border: 1px solid #d1d5db; text-align: center; }
+.summary-table th { font-weight: 700; background: #f3f4f6; }
+.summary-total-row { font-weight: 700; background: #f9fafb; }
+.summary-table td:first-child { text-align: left; }
+.performers-table { width: 100%; border-collapse: collapse; margin-top: 24px; background: #ffffff; color: #111827; }
+.performers-table th,
+.performers-table td { padding: 12px 14px; border: 1px solid #d1d5db; }
+.performers-table th { font-weight: 700; background: #f3f4f6; }
+.performers-table td { text-align: left; }
+.performers-table td:first-child { width: 100px; }
+.performer-label { font-size: 1.15rem; margin-right: 8px; }
+.verification-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #ffffff; color: #111827; }
+.verification-table th,
+.verification-table td { padding: 12px 14px; border: 1px solid #d1d5db; text-align: left; }
+.verification-table th { font-weight: 700; background: #f3f4f6; }
+.category-row td { background: #eef2ff; font-weight: 700; }
+.verification-table td:nth-child(5) { text-align: center; }
+.subject-summary-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #ffffff; color: #111827; }
+.subject-summary-table th,
+.subject-summary-table td { padding: 12px 14px; border: 1px solid #d1d5db; }
+.subject-summary-table th { font-weight: 700; background: #f3f4f6; text-align: left; }
+.subject-summary-table td { text-align: left; }
+.subject-summary-table input { width: 100%; border: 1px solid #d1d5db; border-radius: 8px; padding: 8px; }
+.subject-summary-table td:nth-child(5),
+.subject-summary-table td:nth-child(6),
+.subject-summary-table td:nth-child(7),
+.subject-summary-table td:nth-child(8),
+.subject-summary-table td:nth-child(9),
+.subject-summary-table td:nth-child(10) { text-align: center; }
+.demographics-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #ffffff; color: #111827; }
+.demographics-table th,
+.demographics-table td { padding: 10px 12px; border: 1px solid #d1d5db; }
+.demographics-table thead th { background: #f3f4f6; font-weight: 700; text-align: center; }
+.demographics-table td { text-align: center; }
+.demographics-table .label { text-align: left; font-weight: 600; }
+
+/* Fixed academic report demographics table */
+.demographics-fixed-wrapper { overflow-x: auto; width: 100%; margin-top: 12px; }
+.report-demographics-wrapper { margin-top: 20px; background: #ffffff; color: #000000; }
+.report-demographics-title { font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
+.report-demographics-table-wrapper { overflow-x: auto; width: 100%; }
+.report-demographics-table { width: 100%; border-collapse: collapse; min-width: 1440px; font-family: 'Times New Roman', Georgia, serif; font-size: 0.88rem; }
+.report-demographics-table th,
+.report-demographics-table td { border: 1px solid #000000; padding: 6px 8px; }
+.report-demographics-table th { background: #ffffff; font-weight: 700; text-align: center; }
+.report-demographics-table td { background: #ffffff; text-align: center; vertical-align: middle; }
+.report-demographics-table .vertical-header { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; padding: 4px 8px; }
+.report-demographics-table .vertical-sno { width: 36px; }
+.report-demographics-table .vertical-discipline { width: 70px; }
+.report-demographics-table .vertical-category { width: 80px; }
+.report-demographics-table .subheader-cell { font-weight: 700; }
+.report-demographics-table .section-title-cell { font-weight: 700; text-align: left; padding: 10px; }
+.report-demographics-table .row-index-cell { font-weight: 700; }
+.report-demographics-table .discipline-cell,
+.report-demographics-table .category-cell { font-weight: 700; }
+.report-demographics-table .number-cell { text-align: center; }
+.report-demographics-footer-row td { padding-top: 14px; font-size: 0.82rem; text-align: left; }
+.report-demographics-footer-text { font-weight: 400; }
+@media (max-width: 1200px) {
+  .report-demographics-table { min-width: 1300px; }
+}
+@media (max-width: 900px) {
+  .report-demographics-table { min-width: 1100px; }
+}
+@media (max-width: 640px) {
+  .report-demographics-table { min-width: 1000px; }
+}
+
+.demographics-fixed-wrapper { background: white; padding: 8px; border-radius: 8px; }
+.demographics-fixed-table th { border-width: 1px; border-style: solid; border-color: #dbe7f0; }
+.demographics-fixed-table td { border-width: 1px; border-style: solid; border-color: #eef6fb; }
+
+/* Ensure numbers are centered and header/first column are bold */
+.demographics-fixed-table td:not(:first-child) { text-align: center; }
+.demographics-fixed-table td:first-child { text-align: left; }
+
+/* Thin subtle separators and improved focus */
+.demographics-fixed-table thead th { border-bottom: 1px solid #cbd5e1; }
+
+/* Horizontal scroll look */
+.demographics-fixed-wrapper::-webkit-scrollbar { height: 10px; }
+.demographics-fixed-wrapper::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 6px; }
+.demographics-fixed-wrapper { overflow-x: auto; }
+
+@media (max-width: 900px) {
+  .demographics-fixed-table { min-width: 1100px; }
+}
+.analysis-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; }
+.analysis-actions button { 
+  padding: 12px 24px; 
+  border: none; 
+  border-radius: 8px; 
+  font-size: 1rem; 
+  font-weight: 600; 
+  cursor: pointer; 
+  background: #2563eb; 
+  color: white; 
+  transition: all 0.3s ease;
+}
+.analysis-actions button:hover:not(:disabled) { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+.analysis-actions button:disabled { background: #9ca3af; cursor: not-allowed; opacity: 0.6; }
+.analysis-actions .btn-pdf { background: #dc2626; }
+.analysis-actions .btn-pdf:hover:not(:disabled) { background: #b91c1c; }
+
+.summary-table th,
+.performers-table th,
+.verification-table th,
+.subject-summary-table th,
+.demographics-table thead th,
+.report-demographics-table th,
+.demographics-fixed-table thead th {
+  color: #111827;
+}
+
+@media (max-width: 900px) {
+  .summary-table th,
+  .summary-table td,
+  .performers-table th,
+  .performers-table td,
+  .verification-table th,
+  .verification-table td { padding: 10px 8px; }
+}
+@media (max-width: 640px) {
+  .summary-table th,
+  .summary-table td,
+  .performers-table th,
+  .performers-table td { font-size: 0.88rem; }
+}

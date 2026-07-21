@@ -1,0 +1,36 @@
+{
+  "category_mapping": {
+    "general": "General",
+    "gm": "General",
+    "ews": "EWS",
+    "economically weaker section": "EWS",
+    "obc": "OBC",
+    "category i": "OBC",
+    "category i i (a)": "OBC",
+    "category i i (b)": "OBC",
+    "category i i i (a)": "OBC",
+    "category i i i (b)": "OBC",
+    "category ii(a)": "OBC",
+    "category ii(b)": "OBC",
+    "category iii(a)": "OBC",
+    "category iii(b)": "OBC",
+    "sc": "SC",
+    "scheduled caste": "SC",
+    "st": "ST",
+    "scheduled tribe": "ST"
+  },
+
+  "muslim_minority_castes": [
+    "Muslim"
+  ],
+  "other_minority_castes": [
+    "Christian"
+  ],
+  "muslim_minority_religions": [
+    "Muslim"
+  ],
+  "other_minority_religions": [
+    "Christian"
+  ],
+  "pwd_keys": []
+}

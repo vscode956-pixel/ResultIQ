@@ -1,0 +1,1023 @@
+=================================================
+          EXCEL PARSER TEST
+=================================================
+
+Opening File:
+caste (1).xlsx
+
+Γ£ô Header row detected at Row 2
+
+Detected Columns
+--------------------------------
+USN            -> Column D
+Student Name   -> Column B
+
+==============================================
+Student 1
+----------------------------------------------
+USN      : U03KU23S0006
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (B)
+Caste    : Veerashaiva Lingayat
+
+==============================================
+Student 2
+----------------------------------------------
+USN      : U03BJ23S0025
+Name     : Bangalore University
+Gender   : Female
+Category : Scheduled Caste
+Caste    : Bhovi
+
+==============================================
+Student 3
+----------------------------------------------
+USN      : U03KU23S0001
+Name     : Bangalore University
+Gender   : Male
+Category : Category I
+Caste    : 
+
+==============================================
+Student 4
+----------------------------------------------
+USN      : U03KU23S0002
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : Tigala
+
+==============================================
+Student 5
+----------------------------------------------
+USN      : U03KU23S0003
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (B)
+Caste    : Christian
+
+==============================================
+Student 6
+----------------------------------------------
+USN      : U03KU23S0004
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (A)
+Caste    : Gouda / Gowda
+
+==============================================
+Student 7
+----------------------------------------------
+USN      : U03KU23S0005
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : Madivala
+
+==============================================
+Student 8
+----------------------------------------------
+USN      : U03KU23S0007
+Name     : Bangalore University
+Gender   : Female
+Category : General
+Caste    : Brahmin
+
+==============================================
+Student 9
+----------------------------------------------
+USN      : U03KU23S0008
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (B)
+Caste    : Veerashaiva Lingayat
+
+==============================================
+Student 10
+----------------------------------------------
+USN      : U03KU23S0009
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (A)
+Caste    : Gownder
+
+==============================================
+Student 11
+----------------------------------------------
+USN      : U03KU23S0010
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (A)
+Caste    : Kuruba
+
+==============================================
+Student 12
+----------------------------------------------
+USN      : U03KU23S0011
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (A)
+Caste    : Kuruhina Setty
+
+==============================================
+Student 13
+----------------------------------------------
+USN      : U03KU23S0012
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Gownder
+
+==============================================
+Student 14
+----------------------------------------------
+USN      : U03KU23S0013
+Name     : Bangalore University
+Gender   : Male
+Category : Scheduled Tribe
+Caste    : Nayaka
+
+==============================================
+Student 15
+----------------------------------------------
+USN      : U03KU23S0014
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (B)
+Caste    : Lingayat/ Veerashaiva-Veerashaiva Panchamasali
+
+==============================================
+Student 16
+----------------------------------------------
+USN      : U03KU23S0016
+Name     : Bangalore University
+Gender   : Male
+Category : Scheduled Caste
+Caste    : Bhovi
+
+==============================================
+Student 17
+----------------------------------------------
+USN      : U03KU23S0019
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (B)
+Caste    : Christian
+
+==============================================
+Student 18
+----------------------------------------------
+USN      : U03KU23S0020
+Name     : Bangalore University
+Gender   : Female
+Category : General
+Caste    : Brahmin
+
+==============================================
+Student 19
+----------------------------------------------
+USN      : U03KU23S0021
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (B)
+Caste    : Lingayat/ Veerashaiva-Veerashaiva Panchamasali
+
+==============================================
+Student 20
+----------------------------------------------
+USN      : U03KU23S0022
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (B)
+Caste    : Muslim
+
+==============================================
+Student 21
+----------------------------------------------
+USN      : U03KU23S0023
+Name     : Bangalore University
+Gender   : Male
+Category : General
+Caste    : Brahmin
+
+==============================================
+Student 22
+----------------------------------------------
+USN      : U03KU23S0024
+Name     : Bangalore University
+Gender   : Female
+Category : General
+Caste    : Arya Vysya
+
+==============================================
+Student 23
+----------------------------------------------
+USN      : U03KU23S0025
+Name     : Bangalore University
+Gender   : Male
+Category : General
+Caste    : 
+
+==============================================
+Student 24
+----------------------------------------------
+USN      : U03KU23S0026
+Name     : Bangalore University
+Gender   : Male
+Category : General
+Caste    : 
+
+==============================================
+Student 25
+----------------------------------------------
+USN      : U03KU23S0029
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vokkaliga
+
+==============================================
+Student 26
+----------------------------------------------
+USN      : U03KU23S0028
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 27
+----------------------------------------------
+USN      : U03KU23S0030
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 28
+----------------------------------------------
+USN      : U03KU23S0033
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 29
+----------------------------------------------
+USN      : U03KU23S0031
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (B)
+Caste    : Veerashaiva Lingayat
+
+==============================================
+Student 30
+----------------------------------------------
+USN      : U03KU23S0034
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 31
+----------------------------------------------
+USN      : U03KU23S0032
+Name     : Bangalore University
+Gender   : Female
+Category : General
+Caste    : Brahmin
+
+==============================================
+Student 32
+----------------------------------------------
+USN      : U03KU23S0035
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (A)
+Caste    : Vokkaliga
+
+==============================================
+Student 33
+----------------------------------------------
+USN      : U03KU23S0047
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vokkaliga
+
+==============================================
+Student 34
+----------------------------------------------
+USN      : U03KU23S0036
+Name     : Bangalore University
+Gender   : Female
+Category : Category I
+Caste    : Jogi
+
+==============================================
+Student 35
+----------------------------------------------
+USN      : U03KU23S0048
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vokkaliga
+
+==============================================
+Student 36
+----------------------------------------------
+USN      : U03KU23S0046
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vokkaliga
+
+==============================================
+Student 37
+----------------------------------------------
+USN      : U03KU23S0039
+Name     : Bangalore University
+Gender   : Male
+Category : Category I
+Caste    : Golla
+
+==============================================
+Student 38
+----------------------------------------------
+USN      : U03KU23S0041
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (B)
+Caste    : Veerashaiva Lingayat
+
+==============================================
+Student 39
+----------------------------------------------
+USN      : U03LZ23S0048
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Gouda / Gowda
+
+==============================================
+Student 40
+----------------------------------------------
+USN      : U03KU23S0043
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : PadmaSale/PadmaShali/PadmaSali
+
+==============================================
+Student 41
+----------------------------------------------
+USN      : U03KU23S0044
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (B)
+Caste    : Veerashaiva Lingayat
+
+==============================================
+Student 42
+----------------------------------------------
+USN      : U03KU23S0045
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (B)
+Caste    : Lingayat/ Veerashaiva-Veerashaiva Panchamasali
+
+==============================================
+Student 43
+----------------------------------------------
+USN      : U03KU23S0049
+Name     : Bangalore University
+Gender   : Female
+Category : General
+Caste    : 
+
+==============================================
+Student 44
+----------------------------------------------
+USN      : U03KU23S0053
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 45
+----------------------------------------------
+USN      : U03KU23S0050
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (A)
+Caste    : Achari
+
+==============================================
+Student 46
+----------------------------------------------
+USN      : U03KU23S0051
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : HinduSadru/Sadaru/Sadumata/Sadkula/Sadar/SaduGowda/SaduGowdar/Sadar/Sadari/Sadaragowda
+
+==============================================
+Student 47
+----------------------------------------------
+USN      : U03KU23S0052
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (B)
+Caste    : Marata Maratha
+
+==============================================
+Student 48
+----------------------------------------------
+USN      : U03KU23S0054
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 49
+----------------------------------------------
+USN      : U03KU23S0055
+Name     : Bangalore University
+Gender   : Male
+Category : Category I
+Caste    : Yadav
+
+==============================================
+Student 50
+----------------------------------------------
+USN      : U03KU23S0057
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (B)
+Caste    : Veerashaiva Lingayat
+
+==============================================
+Student 51
+----------------------------------------------
+USN      : U03KU23S0058
+Name     : Bangalore University
+Gender   : Male
+Category : General
+Caste    : 
+
+==============================================
+Student 52
+----------------------------------------------
+USN      : U03KU23S0060
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (B)
+Caste    : Bunt/Bant
+
+==============================================
+Student 53
+----------------------------------------------
+USN      : U03KU23S0061
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 54
+----------------------------------------------
+USN      : U03KU23S0063
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : Balajiga / Banajiga/ Goudabanajiga
+
+==============================================
+Student 55
+----------------------------------------------
+USN      : U03KU23S0065
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (A)
+Caste    : Vokkaliga
+
+==============================================
+Student 56
+----------------------------------------------
+USN      : U03KU23S0067
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (A)
+Caste    : Reddy
+
+==============================================
+Student 57
+----------------------------------------------
+USN      : U03KU23S0068
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vokkaliga
+
+==============================================
+Student 58
+----------------------------------------------
+USN      : U03KU23S0080
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : Billava
+
+==============================================
+Student 59
+----------------------------------------------
+USN      : U03KU23S0072
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 60
+----------------------------------------------
+USN      : U03KU23S0073
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 61
+----------------------------------------------
+USN      : U03KU23S0074
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (B)
+Caste    : Muslim
+
+==============================================
+Student 62
+----------------------------------------------
+USN      : U03KU23S0075
+Name     : Bangalore University
+Gender   : Male
+Category : General
+Caste    : 
+
+==============================================
+Student 63
+----------------------------------------------
+USN      : U03KU23S0076
+Name     : Bangalore University
+Gender   : Female
+Category : Scheduled Caste
+Caste    : Adi Karnataka
+
+==============================================
+Student 64
+----------------------------------------------
+USN      : U03KU23S0082
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : Vanniar
+
+==============================================
+Student 65
+----------------------------------------------
+USN      : U03KU23S0079
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : Bhavasara Kshatriya
+
+==============================================
+Student 66
+----------------------------------------------
+USN      : U03KU23S0089
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vokkaliga
+
+==============================================
+Student 67
+----------------------------------------------
+USN      : U03KU23S0081
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 68
+----------------------------------------------
+USN      : U03KU23S0100
+Name     : Bangalore University
+Gender   : Female
+Category : General
+Caste    : 
+
+==============================================
+Student 69
+----------------------------------------------
+USN      : U03KU23S0083
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (A)
+Caste    : Balija
+
+==============================================
+Student 70
+----------------------------------------------
+USN      : U03KU23S0084
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (B)
+Caste    : Vaishnava
+
+==============================================
+Student 71
+----------------------------------------------
+USN      : U03KU23S0085
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 72
+----------------------------------------------
+USN      : U03KU23S0086
+Name     : Bangalore University
+Gender   : Male
+Category : Scheduled Caste
+Caste    : Adi Dravida
+
+==============================================
+Student 73
+----------------------------------------------
+USN      : U03KU23S0088
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Gouda / Gowda
+
+==============================================
+Student 74
+----------------------------------------------
+USN      : U03KU23S0095
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (A)
+Caste    : Vanniar
+
+==============================================
+Student 75
+----------------------------------------------
+USN      : U03KU23S0090
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 76
+----------------------------------------------
+USN      : U03KU23S0087
+Name     : Bangalore University
+Gender   : Female
+Category : General
+Caste    : 
+
+==============================================
+Student 77
+----------------------------------------------
+USN      : U03KU23S0091
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (A)
+Caste    : Madivala
+
+==============================================
+Student 78
+----------------------------------------------
+USN      : U03KU23S0093
+Name     : Bangalore University
+Gender   : Female
+Category : General
+Caste    : 
+
+==============================================
+Student 79
+----------------------------------------------
+USN      : U03KU23S0097
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (B)
+Caste    : Lingayat/ Veerashaiva-Veerashaiva Panchamasali
+
+==============================================
+Student 80
+----------------------------------------------
+USN      : U03KU23S0098
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (B)
+Caste    : Lingayat/ Veerashaiva-Veerashaiva Panchamasali
+
+==============================================
+Student 81
+----------------------------------------------
+USN      : U03KU23S0108
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 82
+----------------------------------------------
+USN      : U03KU23S0102
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : Naidu
+
+==============================================
+Student 83
+----------------------------------------------
+USN      : U03KU23S0106
+Name     : Bangalore University
+Gender   : Male
+Category : General
+Caste    : Brahmin
+
+==============================================
+Student 84
+----------------------------------------------
+USN      : U03KU23S0109
+Name     : Bangalore University
+Gender   : Male
+Category : General
+Caste    : 
+
+==============================================
+Student 85
+----------------------------------------------
+USN      : U03KU23S0115
+Name     : Bangalore University
+Gender   : Male
+Category : Scheduled Caste
+Caste    : Adi Dravida
+
+==============================================
+Student 86
+----------------------------------------------
+USN      : U03KU23S0123
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+==============================================
+Student 87
+----------------------------------------------
+USN      : U03KU23S0114
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (A)
+Caste    : Tigala
+
+==============================================
+Student 88
+----------------------------------------------
+USN      : U03KU23S0113
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : Ediga
+
+==============================================
+Student 89
+----------------------------------------------
+USN      : U03KU23S0128
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (B)
+Caste    : Lingayat/ Veerashaiva-Veerashaiva Panchamasali
+
+==============================================
+Student 90
+----------------------------------------------
+USN      : U03KU23S0116
+Name     : Bangalore University
+Gender   : Male
+Category : General
+Caste    : 
+
+==============================================
+Student 91
+----------------------------------------------
+USN      : U03KU23S0119
+Name     : Bangalore University
+Gender   : Male
+Category : Scheduled Caste
+Caste    : Korama
+
+==============================================
+Student 92
+----------------------------------------------
+USN      : U03KU23S0118
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (A)
+Caste    : Kaikolan/Sengundhar
+
+==============================================
+Student 93
+----------------------------------------------
+USN      : U03KU23S0129
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (A)
+Caste    : Kuruba
+
+==============================================
+Student 94
+----------------------------------------------
+USN      : U03KU23S0124
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (A)
+Caste    : Balajiga/Banajiga/Gowda Banajiga
+
+==============================================
+Student 95
+----------------------------------------------
+USN      : U03KU23S0134
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (A)
+Caste    : Bajanthri
+
+==============================================
+Student 96
+----------------------------------------------
+USN      : U03KU23S0136
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : Kuruba
+
+==============================================
+Student 97
+----------------------------------------------
+USN      : U03KU23S0138
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : Kuruba
+
+==============================================
+Student 98
+----------------------------------------------
+USN      : U03KU23S0137
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I (A)
+Caste    : Kumbara
+
+==============================================
+Student 99
+----------------------------------------------
+USN      : U03KU23S0140
+Name     : Bangalore University
+Gender   : Male
+Category : General
+Caste    : Arya Vysya
+
+==============================================
+Student 100
+----------------------------------------------
+USN      : U03KU23S0141
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : Vishwakarma
+
+==============================================
+Student 101
+----------------------------------------------
+USN      : U03KU23S0142
+Name     : Bangalore University
+Gender   : Male
+Category : General
+Caste    : Nayar
+
+==============================================
+Student 102
+----------------------------------------------
+USN      : U03KU23S0145
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (B)
+Caste    : Lingayat/ Veerashaiva-Veerashaiva Panchamasali
+
+==============================================
+Student 103
+----------------------------------------------
+USN      : U03KU23S0147
+Name     : Bangalore University
+Gender   : Male
+Category : General
+Caste    : Brahmin
+
+==============================================
+Student 104
+----------------------------------------------
+USN      : U03KU23S0150
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I (A)
+Caste    : Panchal
+
+==============================================
+Student 105
+----------------------------------------------
+USN      : U03KU23S0153
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Reddy
+
+==============================================
+Student 106
+----------------------------------------------
+USN      : U03KU23S0154
+Name     : Bangalore University
+Gender   : Female
+Category : Category I I I (A)
+Caste    : Vokkaliga
+
+==============================================
+Student 107
+----------------------------------------------
+USN      : U03KU23S0157
+Name     : Bangalore University
+Gender   : Female
+Category : Scheduled Caste
+Caste    : Adi Dravida
+
+==============================================
+Student 108
+----------------------------------------------
+USN      : U03KU23S0158
+Name     : Bangalore University
+Gender   : Male
+Category : Scheduled Caste
+Caste    : Lambani
+
+==============================================
+Student 109
+----------------------------------------------
+USN      : U03KU23S0161
+Name     : Bangalore University
+Gender   : Male
+Category : General
+Caste    : Arya Vysya
+
+==============================================
+Student 110
+----------------------------------------------
+USN      : U03KU23S0165
+Name     : Bangalore University
+Gender   : Male
+Category : Category I I I (A)
+Caste    : Vakkaliga
+
+=================================================
+SUMMARY
+=================================================
+
+Total Students : 110
+
+Missing USN      : 0
+Missing Name     : 0
+Traceback (most recent call last):
+  File "D:\projects\SIMS-Result-analysis\excel_parser.py", line 277, in <module>
+    main()
+    ~~~~^^
+  File "D:\projects\SIMS-Result-analysis\excel_parser.py", line 273, in main
+    print_results(file_path, parsed)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "D:\projects\SIMS-Result-analysis\excel_parser.py", line 252, in print_results
+    print(f"Missing Gender   : {missing_counts['Gender']}")
+                                ~~~~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'Gender'

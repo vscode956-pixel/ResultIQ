@@ -1,0 +1,28 @@
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Node & Frontend
+front/node_modules/
+node_modules/
+front/dist/
+dist/
+
+# Byte-compiled / Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Temporary & Test Exports
+temp_*
+out_*
+test_*
