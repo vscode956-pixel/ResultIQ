@@ -286,11 +286,14 @@ export default function LandingPage({ onGetStarted }) {
             <div className="developer-info">
               <h3>Deepu K C</h3>
               <p className="title">Full Stack Developer</p>
-              <p className="edu">BCA Graduate</p>
-              <p className="assoc">General Secretary – CODE DEN</p>
-              <p className="inst">SIMS, Bengaluru</p>
+              <p className="edu">Bengaluru</p>
               <div className="developer-statement">
-                ResultIQ was independently designed and developed as a full-stack academic automation solution with the objective of modernizing institutional result analysis. The application integrates intelligent data extraction, analytical processing, and automated document generation into a single workflow using modern web technologies.
+                <p style={{ marginBottom: '1rem' }}>
+                  ResultIQ was independently designed and developed as a full-stack academic automation solution with the objective of modernizing institutional result analysis. The application integrates intelligent data extraction, analytical processing, and automated document generation into a single workflow using modern web technologies.
+                </p>
+                <p>
+                  Deepu K C is a Full Stack Developer from Bengaluru with a passion for building practical software solutions that solve real-world problems. He specializes in modern web technologies and develops scalable applications with a strong focus on automation, user experience, and performance. ResultIQ reflects his commitment to simplifying academic processes through intelligent data analysis and report generation, helping educational institutions save time and improve efficiency.
+                </p>
               </div>
               <div className="social-links">
                 <a href="https://github.com/Deepu325" target="_blank" rel="noreferrer" title="GitHub">
