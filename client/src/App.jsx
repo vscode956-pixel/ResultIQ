@@ -3,6 +3,8 @@ import './analysis.css';
 import ReportDemographicsTable from './ReportDemographicsTable';
 import soundaryaLogo from './assets/Untitled_design.png';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const initialState = {
   excel: null,
   pdf: null,
@@ -38,7 +40,7 @@ function App() {
     }
 
     try {
-      const response = await fetch(`/api/validate/${type}`, {
+      const response = await fetch(`${API_URL}/api/validate/${type}`, {
         method: 'POST',
         body: formData
       });
@@ -81,7 +83,7 @@ function App() {
 
     setState((prev) => ({ ...prev, loadingAnalysis: true, analysisResult: null }));
     try {
-      const response = await fetch('/api/analyze', {
+      const response = await fetch(`${API_URL}/api/analyze`, {
         method: 'POST',
         body: formData
       });
@@ -143,7 +145,7 @@ function App() {
     const fileExtension = format;
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch(API_URL + endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Optional
 from flask import Flask, jsonify, request, send_file, render_template
 from PIL import Image
+from flask_cors import CORS
 
 
 ROOT = Path(__file__).resolve().parent
@@ -156,6 +157,7 @@ app = Flask(
     static_folder=os.path.join(ROOT, 'client', 'dist'),
     static_url_path='/'
 )
+CORS(app)
 
 
 @app.route('/', defaults={'path': ''})
