@@ -151,7 +151,22 @@ def compute_centum_achievers(merged_students):
     return centum_achievers
 
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(
+    __name__,
+    static_folder=os.path.join(ROOT, 'front', 'dist'),
+    static_url_path='/'
+)
+
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    if path.startswith('api/'):
+        return jsonify({'error': 'Not found'}), 404
+    try:
+        return app.send_static_file(path or 'index.html')
+    except Exception:
+        return app.send_static_file('index.html')
 
 
 @app.route('/api/health', methods=['GET'])
