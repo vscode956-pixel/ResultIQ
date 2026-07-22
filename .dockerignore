@@ -1,0 +1,27 @@
+# Ignore virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Ignore node modules and client source in backend COPY stage
+client/node_modules/
+client/src/
+client/public/
+client/package*.json
+client/vite.config.js
+client/index.html
+
+# Ignore git
+.git/
+.gitignore
+
+# Ignore local files and test exports
+*.docx
+*.pdf
+temp_*
+out_*
+test_*
+server.log
+parse_output.txt
+temp_docx_output.txt

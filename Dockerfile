@@ -8,18 +8,18 @@ RUN npm run build
 
 # --- Stage 2: Build Flask Backend & Package App ---
 FROM python:3.12-slim
-WORKDIR /app/server
+WORKDIR /app
 
 # Install standard dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-COPY server/requirements.txt ./
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy backend files
-COPY server/ ./
+COPY . .
 
 # Copy built frontend assets from Stage 1
 COPY --from=frontend-builder /app/client/dist /app/client/dist

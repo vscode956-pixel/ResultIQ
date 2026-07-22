@@ -153,7 +153,7 @@ def compute_centum_achievers(merged_students):
 
 app = Flask(
     __name__,
-    static_folder=os.path.join(ROOT.parent, 'client', 'dist'),
+    static_folder=os.path.join(ROOT, 'client', 'dist'),
     static_url_path='/'
 )
 
