@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import './analysis.css';
 import ReportDemographicsTable from './ReportDemographicsTable';
 import soundaryaLogo from './assets/Untitled_design.png';
+import LandingPage from './LandingPage';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -20,6 +21,7 @@ const initialState = {
 function App() {
   const [state, setState] = useState(initialState);
   const [subjectEdits, setSubjectEdits] = useState([]);
+  const [view, setView] = useState('landing');
 
   const excelReady = state.excelResult?.valid === true;
   const pdfReady = state.pdfResult?.valid === true;
@@ -181,8 +183,15 @@ function App() {
     return 'Awaiting validation';
   }, [state.excelResult, state.pdfResult]);
 
+  if (view === 'landing') {
+    return <LandingPage onGetStarted={() => setView('app')} />;
+  }
+
   return (
     <div className="app-shell">
+      <div className="app-nav-header">
+        <button className="btn-back-home" onClick={() => setView('landing')}>← Back to Home</button>
+      </div>
       <div className="hero split-hero">
         <div className="hero-copy">
           <h1>ResultIQ</h1>
