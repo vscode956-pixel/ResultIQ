@@ -317,7 +317,7 @@ export default function LandingPage({ onGetStarted }) {
       {/* Mentor Section */}
       <section id="mentor" className="mentor-section">
         <div className="section-header">
-          <h2 className="section-title">Acknowledgement</h2>
+          <h2 className="section-title">Meet My Mentor</h2>
           <p className="section-subtitle">Sincere gratitude for guidance and mentorship.</p>
         </div>
         <div className="mentor-card-wrapper">
@@ -326,12 +326,12 @@ export default function LandingPage({ onGetStarted }) {
               <div className="avatar-placeholder-mentor">🎓</div>
             </div>
             <div className="mentor-info">
-              <h3>Dr. [Mentor Name]</h3>
-              <p className="designation">Project Mentor & Guide</p>
+              <h3>Dr. Yatish S J</h3>
+              <p className="designation">Faculty Mentor | Researcher</p>
               <p className="dept">Department of Computer Science</p>
               <p className="inst-name">Soundarya Institute of Management & Science</p>
               <div className="acknowledgement-text">
-                "This project would not have been possible without the continuous guidance, encouragement, and valuable insights provided throughout its development. Their mentorship played an important role in shaping the system architecture, improving the analytical workflow, and ensuring that the application aligns with institutional requirements. I sincerely express my gratitude for their support and inspiration throughout this journey."
+                Dr. Yatish S J has been a constant source of guidance and encouragement throughout the development of ResultIQ. His mentorship, technical insights, and constructive feedback helped shape the project into a practical solution for academic result analysis. His support inspired me to approach software development with a focus on innovation, quality, and solving real-world institutional challenges.
               </div>
             </div>
           </div>
@@ -378,7 +378,7 @@ export default function LandingPage({ onGetStarted }) {
           </div>
           <div className="footer-details">
             <p><strong>Developed by:</strong> Deepu K C</p>
-            <p><strong>Special Thanks:</strong> Dr. ___________</p>
+            <p><strong>Special Thanks:</strong> Dr. Yatish S J</p>
             <p><strong>Version:</strong> 1.0 (2026)</p>
           </div>
         </div>
