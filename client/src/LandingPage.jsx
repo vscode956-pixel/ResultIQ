@@ -299,13 +299,13 @@ export default function LandingPage({ onGetStarted }) {
                 <a href="https://github.com/Deepu325" target="_blank" rel="noreferrer" title="GitHub">
                   <span className="social-icon">🐙 GitHub</span>
                 </a>
-                <a href="https://linkedin.com" target="_blank" rel="noreferrer" title="LinkedIn">
+                <a href="https://linkedin.com/in/deepu-kc-03kc02/?skipRedirect=true" target="_blank" rel="noreferrer" title="LinkedIn">
                   <span className="social-icon">💼 LinkedIn</span>
                 </a>
-                <a href="https://portfolio.com" target="_blank" rel="noreferrer" title="Portfolio">
+                <a href="https://deepukcportfoliov2.vercel.app/" target="_blank" rel="noreferrer" title="Portfolio">
                   <span className="social-icon">🌐 Portfolio</span>
                 </a>
-                <a href="mailto:deepu@example.com" title="Email">
+                <a href="mailto:DEEPUKC2526@GMAIL.COM" title="Email">
                   <span className="social-icon">📧 Email</span>
                 </a>
               </div>
