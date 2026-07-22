@@ -1,4 +1,5 @@
 import React from 'react';
+import mentorPhoto from './assets/dR..jpg';
 
 export default function LandingPage({ onGetStarted }) {
   // Smooth scroll handler
@@ -323,7 +324,7 @@ export default function LandingPage({ onGetStarted }) {
         <div className="mentor-card-wrapper">
           <div className="mentor-card">
             <div className="mentor-avatar-wrapper">
-              <div className="avatar-placeholder-mentor">🎓</div>
+              <img className="mentor-photo" src={mentorPhoto} alt="Dr. Yatish S J" />
             </div>
             <div className="mentor-info">
               <h3>Dr. Yatish S J</h3>
