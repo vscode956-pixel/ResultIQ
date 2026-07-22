@@ -4,13 +4,8 @@ venv/
 env/
 ENV/
 
-# Ignore node modules and client source in backend COPY stage
+# Ignore node modules in backend COPY stage
 client/node_modules/
-client/src/
-client/public/
-client/package*.json
-client/vite.config.js
-client/index.html
 
 # Ignore git
 .git/
