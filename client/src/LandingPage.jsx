@@ -328,8 +328,6 @@ export default function LandingPage({ onGetStarted }) {
             <div className="mentor-info">
               <h3>Dr. Yatish S J</h3>
               <p className="designation">Faculty Mentor | Researcher</p>
-              <p className="dept">Department of Computer Science</p>
-              <p className="inst-name">Soundarya Institute of Management & Science</p>
               <div className="acknowledgement-text">
                 Dr. Yatish S J has been a constant source of guidance and encouragement throughout the development of ResultIQ. His mentorship, technical insights, and constructive feedback helped shape the project into a practical solution for academic result analysis. His support inspired me to approach software development with a focus on innovation, quality, and solving real-world institutional challenges.
               </div>
