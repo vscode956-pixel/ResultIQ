@@ -229,7 +229,6 @@ export default function LandingPage({ onGetStarted }) {
             <div className="visual-inner">
               <span className="visual-logo">ResultIQ</span>
               <div className="visual-line"></div>
-              <p>Developed for Soundarya Educational Trust (Regd.)</p>
             </div>
           </div>
         </div>
