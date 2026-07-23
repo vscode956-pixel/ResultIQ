@@ -1,5 +1,6 @@
 import React from 'react';
 import mentorPhoto from './assets/dR..jpg';
+import aboutPhoto from './assets/aboutPhoto.jpeg';
 
 export default function LandingPage({ onGetStarted }) {
   // Smooth scroll handler
@@ -226,10 +227,7 @@ export default function LandingPage({ onGetStarted }) {
             </p>
           </div>
           <div className="about-visual-card">
-            <div className="visual-inner">
-              <span className="visual-logo">ResultIQ</span>
-              <div className="visual-line"></div>
-            </div>
+            <img className="about-photo" src={aboutPhoto} alt="ResultIQ About Photo" />
           </div>
         </div>
       </section>
