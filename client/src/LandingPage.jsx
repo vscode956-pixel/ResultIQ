@@ -21,7 +21,6 @@ export default function LandingPage({ onGetStarted }) {
         <div className="nav-links">
           <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Home</button>
           <button onClick={() => scrollToSection('features')}>Features</button>
-          <button onClick={() => scrollToSection('workflow')}>Workflow</button>
           <button onClick={() => scrollToSection('about')}>About</button>
           <button onClick={() => scrollToSection('developer')}>Developer</button>
           <button onClick={() => scrollToSection('mentor')}>Mentor</button>
@@ -158,44 +157,7 @@ export default function LandingPage({ onGetStarted }) {
         </div>
       </section>
 
-      {/* Workflow Section */}
-      <section id="workflow" className="workflow-section">
-        <div className="section-header">
-          <h2 className="section-title">How It Works</h2>
-          <p className="section-subtitle">Seamless workflow from raw university files to a finalized, polished report.</p>
-        </div>
-        <div className="workflow-container">
-          <div className="workflow-step">
-            <div className="step-number">1</div>
-            <h4>Upload PDF</h4>
-            <p>Upload University Ledger</p>
-          </div>
-          <div className="workflow-arrow">→</div>
-          <div className="workflow-step">
-            <div className="step-number">2</div>
-            <h4>Upload Excel</h4>
-            <p>Upload Student Master</p>
-          </div>
-          <div className="workflow-arrow">→</div>
-          <div className="workflow-step">
-            <div className="step-number">3</div>
-            <h4>Validate Data</h4>
-            <p>Automatic checks</p>
-          </div>
-          <div className="workflow-arrow">→</div>
-          <div className="workflow-step">
-            <div className="step-number">4</div>
-            <h4>Processing</h4>
-            <p>Data integration</p>
-          </div>
-          <div className="workflow-arrow">→</div>
-          <div className="workflow-step">
-            <div className="step-number">5</div>
-            <h4>Generate & Download</h4>
-            <p>Get Word Report</p>
-          </div>
-        </div>
-      </section>
+
 
       {/* Key Features Details Section */}
       <section className="features-detail-section">
