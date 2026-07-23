@@ -207,6 +207,57 @@ function App() {
         </div>
       </div>
 
+      <div className="instructions-card">
+        <h2>📋 Instructions & File Requirements</h2>
+        <div className="instructions-grid">
+          <div className="inst-group">
+            <h3>📊 Student Master Excel Requirements</h3>
+            <ul>
+              <li><strong>First Row must be the header row</strong> containing column names.</li>
+              <li><strong>Mandatory Columns:</strong> <code>USN</code> (register no, registration number) and <code>StudentName</code> (candidate name, name).</li>
+              <li><strong>Optional Columns (recommended for demographic reports):</strong> <code>Gender</code> (sex), <code>Category</code> (admission category), <code>Caste</code>, and <code>Religion</code>.</li>
+              <li>Ensure there are no blank USN or Student Name cells in your data rows.</li>
+            </ul>
+            <div className="inst-example-table-wrapper">
+              <table className="inst-example-table">
+                <thead>
+                  <tr>
+                    <th>USN</th>
+                    <th>StudentName</th>
+                    <th>Gender</th>
+                    <th>Category</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1SI21CA001</td>
+                    <td>John Doe</td>
+                    <td>Male</td>
+                    <td>GM</td>
+                  </tr>
+                  <tr>
+                    <td>1SI21CA002</td>
+                    <td>Jane Smith</td>
+                    <td>Female</td>
+                    <td>IIA</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div className="inst-group">
+            <h3>📄 Result Ledger PDF Requirements</h3>
+            <ul>
+              <li>Upload the official <strong>Bangalore University Semester Result Ledger PDF</strong>.</li>
+              <li>The PDF must contain the course details, subject codes, obtained internal/external marks, grades, and SGPA info.</li>
+              <li>Ensure the PDF file is readable and not password-protected or corrupted.</li>
+              <li>The results in the PDF will be matched with the USNs provided in your Student Master Excel sheet to generate reports.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <div className="status-card">
         <div>
           <strong>Status</strong>

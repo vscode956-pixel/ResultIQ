@@ -1164,3 +1164,81 @@
   display: block;
 }
 
+/* Instructions card styles */
+.instructions-card {
+  background: rgba(9, 18, 34, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.instructions-card h2 {
+  font-size: 1.3rem;
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #f5f8ff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+}
+
+.instructions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .instructions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.inst-group h3 {
+  font-size: 1.05rem;
+  color: #3f6fd3;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.inst-group ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.inst-group li {
+  font-size: 0.9rem;
+  color: #c8d5ea;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.inst-example-table-wrapper {
+  margin-top: 16px;
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+}
+
+.inst-example-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  background: rgba(8, 17, 31, 0.6);
+  color: #e7eefb;
+}
+
+.inst-example-table th,
+.inst-example-table td {
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
+}
+
+.inst-example-table th {
+  background: rgba(255, 255, 255, 0.03);
+  font-weight: 700;
+  color: #f5f8ff;
+}
+
