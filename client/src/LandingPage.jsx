@@ -301,36 +301,7 @@ export default function LandingPage({ onGetStarted }) {
         </div>
       </section>
 
-      {/* Technology Stack Section */}
-      <section className="tech-section">
-        <div className="section-header">
-          <h2 className="section-title">Technology Stack</h2>
-          <p className="section-subtitle">Powered by modern web technologies and analytics engines.</p>
-        </div>
-        <div className="tech-container">
-          <div className="tech-group">
-            <h4>Frontend</h4>
-            <div className="tech-grid">
-              <div className="tech-item"><span className="tech-icon">⚛️</span> React</div>
-              <div className="tech-item"><span className="tech-icon">⚡</span> Vite</div>
-              <div className="tech-item"><span className="tech-icon">🎨</span> CSS3</div>
-              <div className="tech-item"><span className="tech-icon">🌐</span> Axios</div>
-            </div>
-          </div>
-          <div className="tech-group">
-            <h4>Backend</h4>
-            <div className="tech-grid">
-              <div className="tech-item"><span className="tech-icon">🐍</span> Python</div>
-              <div className="tech-item"><span className="tech-icon">🌶️</span> Flask</div>
-              <div className="tech-item"><span className="tech-icon">🐼</span> Pandas</div>
-              <div className="tech-item"><span className="tech-icon">🔢</span> NumPy</div>
-              <div className="tech-item"><span className="tech-icon">📄</span> pdfplumber</div>
-              <div className="tech-item"><span className="tech-icon">📊</span> openpyxl</div>
-              <div className="tech-item"><span className="tech-icon">📝</span> python-docx</div>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Footer */}
       <footer className="landing-footer">
