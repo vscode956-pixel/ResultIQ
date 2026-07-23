@@ -226,13 +226,11 @@ export default function LandingPage({ onGetStarted }) {
               The software significantly reduces manual effort while improving consistency, accuracy, and reporting efficiency.
             </p>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div className="about-visual-card">
-              <img className="about-photo" src={aboutPhoto} alt="ResultIQ About Photo" />
+          <div className="about-visual-card">
+            <div className="visual-inner">
+              <span className="visual-logo">ResultIQ</span>
+              <div className="visual-line"></div>
             </div>
-            <p style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: '#aebdd8', opacity: 0.85, textAlign: 'center', fontStyle: 'italic', lineHeight: '1.4' }}>
-              Special thanks to faculty members and student coordinators for their continuous support and testing.
-            </p>
           </div>
         </div>
       </section>
@@ -246,7 +244,7 @@ export default function LandingPage({ onGetStarted }) {
         <div className="developer-card-wrapper">
           <div className="developer-card">
             <div className="developer-avatar-wrapper">
-              <div className="avatar-placeholder">DK</div>
+              <img className="developer-photo" src={aboutPhoto} alt="Deepu K C" />
             </div>
             <div className="developer-info">
               <h3>Deepu K C</h3>
@@ -256,8 +254,11 @@ export default function LandingPage({ onGetStarted }) {
                 <p style={{ marginBottom: '1rem' }}>
                   ResultIQ was independently designed and developed as a full-stack academic automation solution with the objective of modernizing institutional result analysis. The application integrates intelligent data extraction, analytical processing, and automated document generation into a single workflow using modern web technologies.
                 </p>
-                <p>
+                <p style={{ marginBottom: '1rem' }}>
                   Deepu K C is a Full Stack Developer from Bengaluru with a passion for building practical software solutions that solve real-world problems. He specializes in modern web technologies and develops scalable applications with a strong focus on automation, user experience, and performance. ResultIQ reflects his commitment to simplifying academic processes through intelligent data analysis and report generation, helping educational institutions save time and improve efficiency.
+                </p>
+                <p style={{ fontSize: '0.85rem', color: '#aebdd8', opacity: 0.85, fontStyle: 'italic', lineHeight: '1.4', marginTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '1rem' }}>
+                  Special thanks to faculty members and student coordinators for their continuous support and testing.
                 </p>
               </div>
               <div className="social-links">
