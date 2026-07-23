@@ -226,8 +226,13 @@ export default function LandingPage({ onGetStarted }) {
               The software significantly reduces manual effort while improving consistency, accuracy, and reporting efficiency.
             </p>
           </div>
-          <div className="about-visual-card">
-            <img className="about-photo" src={aboutPhoto} alt="ResultIQ About Photo" />
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="about-visual-card">
+              <img className="about-photo" src={aboutPhoto} alt="ResultIQ About Photo" />
+            </div>
+            <p style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: '#aebdd8', opacity: 0.85, textAlign: 'center', fontStyle: 'italic', lineHeight: '1.4' }}>
+              Special thanks to faculty members and student coordinators for their continuous support and testing.
+            </p>
           </div>
         </div>
       </section>
