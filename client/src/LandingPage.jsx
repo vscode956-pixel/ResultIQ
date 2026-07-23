@@ -295,7 +295,12 @@ export default function LandingPage({ onGetStarted }) {
               <h3>Dr. Yatish S J</h3>
               <p className="designation">Faculty Mentor | Researcher</p>
               <div className="acknowledgement-text">
-                Dr. Yatish S J has been a constant source of guidance and encouragement throughout the development of ResultIQ. His mentorship, technical insights, and constructive feedback helped shape the project into a practical solution for academic result analysis. His support inspired me to approach software development with a focus on innovation, quality, and solving real-world institutional challenges.
+                <p style={{ marginBottom: '0.75rem' }}>
+                  Dr. Yatish S J has been a constant source of guidance and encouragement throughout the development of ResultIQ. His mentorship, technical insights, and constructive feedback helped shape the project into a practical solution for academic result analysis. His support inspired me to approach software development with a focus on innovation, quality, and solving real-world institutional challenges.
+                </p>
+                <p style={{ fontSize: '0.9rem', color: '#aebdd8', opacity: 0.9, fontStyle: 'italic', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '0.75rem', marginTop: '0.75rem' }}>
+                  Special thanks to faculty members and student coordinators for their continuous support.
+                </p>
               </div>
             </div>
           </div>
