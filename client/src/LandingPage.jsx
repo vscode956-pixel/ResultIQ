@@ -318,7 +318,7 @@ export default function LandingPage({ onGetStarted }) {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© 2026 ResultIQ. Made with ❤️ for Educational Institutions.</p>
+          <p>© 2026 ResultIQ. All rights reserved.</p>
         </div>
       </footer>
     </div>
