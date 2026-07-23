@@ -303,6 +303,11 @@ export default function LandingPage({ onGetStarted }) {
         <p style={{ marginTop: '2rem', fontSize: '0.95rem', color: '#aebdd8', opacity: 0.85, textAlign: 'center', fontStyle: 'italic', lineHeight: '1.5' }}>
           Special thanks to faculty members and student coordinators for their continuous support.
         </p>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2.5rem', marginBottom: '1.5rem' }}>
+          <button className="btn-primary" onClick={onGetStarted}>
+            Launch ResultIQ Dashboard 🚀
+          </button>
+        </div>
       </section>
 
 
