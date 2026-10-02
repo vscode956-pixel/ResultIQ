@@ -153,39 +153,49 @@ class WordReportRenderer:
         ))
         body.append(self._make_p('I. Subject Summary', bold=True, size=26, color='1E3A8A', space_before=120, space_after=100))
         body.append(self._make_table(
-            ['Measure', 'Value'],
-            [
-                ['Students', len(records)],
-                ['Passed', subject.get('passed', 0)],
-                ['Failed', subject.get('failed', 0)],
-                ['Absent', subject.get('absent', 0)],
-                ['Centum', subject.get('centum', 0)],
-                ['Pass Percentage', f"{subject.get('pass_percentage', 0)}%"],
-                ['Topper Marks', subject.get('topper_marks') if subject.get('topper_marks') is not None else 'N/A'],
-            ],
-            col_widths=[7700, 7700],
+            ['Students', 'Passed', 'Failed', 'Absent', 'Centum', 'Pass %', 'Topper Marks'],
+            [[
+                len(records),
+                subject.get('passed', 0),
+                subject.get('failed', 0),
+                subject.get('absent', 0),
+                subject.get('centum', 0),
+                f"{subject.get('pass_percentage', 0)}%",
+                subject.get('topper_marks') if subject.get('topper_marks') is not None else 'N/A',
+            ]],
+            col_widths=[2200, 2200, 2200, 2200, 2200, 2200, 2200],
         ))
         body.append(self._make_p('', space_after=120))
-        body.append(self._make_p('II. Student-wise Marks', bold=True, size=26, color='1E3A8A', space_before=160, space_after=100))
+        body.append(self._make_p('II. Top 3 Performers', bold=True, size=26, color='1E3A8A', space_before=160, space_after=100))
 
-        student_rows = []
-        for index, record in enumerate(records, start=1):
-            student_rows.append([
-                index,
-                record.get('usn') or 'N/A',
-                record.get('name') or 'N/A',
-                record.get('cia') if record.get('cia') is not None else 'N/A',
-                record.get('see') if record.get('see') is not None else 'N/A',
-                record.get('grace') if record.get('grace') is not None else 'N/A',
-                record.get('marks') if record.get('marks') is not None else 'N/A',
-                record.get('max_marks') if record.get('max_marks') is not None else 'N/A',
-                record.get('result') or ('ABSENT' if record.get('marks') is None else 'N/A'),
-            ])
-        body.append(self._make_table(
-            ['Sl. No', 'Registration No. (USN)', 'Student Name', 'CIA', 'SEE', 'Grace', 'Total', 'Maximum', 'Result'],
-            student_rows or [['—', '—', 'No student records available', '—', '—', '—', '—', '—', '—']],
-            col_widths=[800, 2500, 4300, 1100, 1100, 900, 1200, 1000, 2500],
-        ))
+        ranked_records = sorted(
+            [record for record in records if isinstance(record.get('marks'), (int, float))],
+            key=lambda record: record['marks'],
+            reverse=True,
+        )
+        top_records = ranked_records[:3]
+        if len(ranked_records) > 3:
+            third_place_marks = ranked_records[2]['marks']
+            top_records = [record for record in ranked_records if record['marks'] >= third_place_marks]
+
+        top_performers = []
+        previous_marks = None
+        rank = 0
+        for index, record in enumerate(top_records, start=1):
+            marks = record['marks']
+            if marks != previous_marks:
+                rank = index
+                previous_marks = marks
+            max_marks = record.get('max_marks')
+            top_performers.append({
+                'rank': rank,
+                'label': str(rank),
+                'name': record.get('name') or 'N/A',
+                'usn': record.get('usn') or 'N/A',
+                'marks': marks,
+                'percentage': round((marks / max_marks) * 100, 1) if isinstance(max_marks, (int, float)) and max_marks else None,
+            })
+        body.append(self._build_top_performers_table(top_performers))
         body.append(self._make_p('', space_after=200))
         body.append(self._build_signatures_table())
 
@@ -270,6 +280,7 @@ class WordReportRenderer:
             ET.SubElement(tcPr, qname(W_NS, 'tcW'), {qname(W_NS, 'w'): str(width), qname(W_NS, 'type'): 'dxa'})
         if col_span > 1:
             ET.SubElement(tcPr, qname(W_NS, 'gridSpan'), {qname(W_NS, 'val'): str(col_span)})
+        ET.SubElement(tcPr, qname(W_NS, 'vAlign'), {qname(W_NS, 'val'): 'center'})
 
         if header and not bg_color:
             bg_color = '1F497D'
@@ -284,8 +295,18 @@ class WordReportRenderer:
         elif isinstance(text_or_p, ET.Element):
             tc.append(text_or_p)
         else:
-            p = self._make_p(str(text_or_p), bold=(bold or header), size=22, color=text_color, align=align, space_after=0)
+            p = self._make_p(str(text_or_p), bold=(bold or header), size=22, color=text_color, align='center', space_after=0)
             tc.append(p)
+
+        for paragraph in tc.iter(qname(W_NS, 'p')):
+            pPr = paragraph.find(qname(W_NS, 'pPr'))
+            if pPr is None:
+                pPr = ET.Element(qname(W_NS, 'pPr'))
+                paragraph.insert(0, pPr)
+            alignment = pPr.find(qname(W_NS, 'jc'))
+            if alignment is None:
+                alignment = ET.SubElement(pPr, qname(W_NS, 'jc'))
+            alignment.set(qname(W_NS, 'val'), 'center')
 
         return tc
 
@@ -315,8 +336,7 @@ class WordReportRenderer:
             bg = 'F9FAFB' if row_idx % 2 == 1 else 'FFFFFF'
             for col_idx, val in enumerate(row):
                 w = col_widths[col_idx] if col_widths and col_idx < len(col_widths) else None
-                align = 'left' if col_idx in {1, 2} and len(row) > 3 else 'center'
-                tr.append(self._make_cell(str(val if val is not None else ''), header=False, bg_color=bg, align=align, width=w))
+                tr.append(self._make_cell(str(val if val is not None else ''), header=False, bg_color=bg, align='center', width=w))
 
         return tbl
 
