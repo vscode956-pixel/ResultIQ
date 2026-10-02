@@ -137,7 +137,10 @@ METADATA_PATTERNS = {
 
 STUDENT_BLOCK_START = re.compile(r"^USN\s*[:\-]?\s*(U[0-9A-Za-z]{9,})", re.IGNORECASE)
 FIELD_PATTERNS = {
-    "student_name": re.compile(r"Student Name\s*[:\-]?\s*(.+)", re.IGNORECASE),
+    "student_name": re.compile(
+        r"Student Name\s*[:\-]?\s*(.*?)(?=\s+(?:USN|Father Name|Mother Name|SGPA|CGPA|Result|Term Grade|Marks card(?:\s+No)?)\b\s*[:\-]?\s*|$)",
+        re.IGNORECASE,
+    ),
     "father_name": re.compile(r"Father Name\s*[:\-]?\s*(.+)", re.IGNORECASE),
     "mother_name": re.compile(r"Mother Name\s*[:\-]?\s*(.+)", re.IGNORECASE),
     "sgpa": re.compile(r"SGPA\s*[:\-]?\s*([0-9]+\.?[0-9]*)", re.IGNORECASE),
@@ -146,6 +149,10 @@ FIELD_PATTERNS = {
     "term_grade": re.compile(r"Term Grade\s*[:\-]?\s*([A-Za-z0-9\+\-]+)", re.IGNORECASE),
     "marks_card_no": re.compile(r"Marks card\s*No\s*[:\-]?\s*(\S+)", re.IGNORECASE),
 }
+STUDENT_FIELD_LABEL_RE = re.compile(
+    r"^(?:USN|Student Name|Father Name|Mother Name|SGPA|CGPA|Result|Term Grade|Marks card(?:\s+No)?)\b",
+    re.IGNORECASE,
+)
 
 SUBJECT_CODE_RE = re.compile(r"^(?=.*\d)[A-Z0-9/\- ]{5,40}$")
 SUBJECT_CONTINUATION_RE = re.compile(r"^[A-Z0-9/\-]{1,40}$")
@@ -346,6 +353,40 @@ def is_likely_header_value(value: Optional[str]) -> bool:
     return bool(re.search(r"\b(UNIVERSITY|COLLEGE|EXAM|RESULT|SEMESTER|PROGRAM|YEAR|DATE|MARKS)\b", value, re.IGNORECASE))
 
 
+def is_likely_student_name(value: Optional[str]) -> bool:
+    cleaned = normalize_field_value(value)
+    if not cleaned or is_likely_header_value(cleaned) or SUBJECT_CODE_RE.match(cleaned):
+        return False
+    return sum(character.isalpha() for character in cleaned) >= 2
+
+
+def collect_wrapped_student_name(lines: List[str], index: int, initial_value: Optional[str]) -> Optional[str]:
+    if not is_likely_student_name(initial_value):
+        return None
+
+    name_parts = [initial_value]
+    for candidate in lines[index + 1:]:
+        if (
+            TOTALS_START_RE.match(candidate)
+            or SUBJECT_CODE_RE.match(candidate.upper())
+            or candidate.lower().startswith(('subject code', 'candidate details'))
+            or STUDENT_FIELD_LABEL_RE.match(candidate)
+            or is_likely_header_value(candidate)
+            or any(
+                pattern.search(candidate)
+                for key, pattern in FIELD_PATTERNS.items()
+                if key != 'student_name'
+            )
+        ):
+            break
+
+        if not is_likely_student_name(candidate):
+            break
+        name_parts.append(candidate)
+
+    return normalize_field_value(' '.join(name_parts))
+
+
 def validate_student(student: Student, warnings: List[str]) -> None:
     if not student.usn:
         warnings.append("Missing USN")
@@ -421,6 +462,8 @@ def parse_student_block(block: str, warnings: List[str]) -> Student:
 
     for line in lines:
         for key, pattern in FIELD_PATTERNS.items():
+            if key == 'student_name':
+                continue
             match = pattern.search(line)
             if match:
                 value = normalize_field_value(match.group(1))
@@ -457,34 +500,56 @@ def parse_student_block(block: str, warnings: List[str]) -> Student:
                 else:
                     setattr(student, key, value)
 
-    candidate_names = []
-    for line in lines:
+    name_matches = []
+    for index, line in enumerate(lines):
         match = FIELD_PATTERNS['student_name'].search(line)
         if match:
-            candidate_names.append(normalize_field_value(match.group(1)))
+            name_matches.append((index, collect_wrapped_student_name(
+                lines,
+                index,
+                normalize_field_value(match.group(1)),
+            )))
 
-    valid_names = [name for name in candidate_names if name and not is_likely_header_value(name)]
+    valid_names = [name for _, name in name_matches if name]
     if valid_names:
         student.student_name = valid_names[0]
     else:
-        for name in candidate_names:
-            if name and not is_likely_header_value(name):
-                student.student_name = name
+        for index, name in name_matches:
+            if name or index + 1 >= len(lines):
+                continue
+            next_line = lines[index + 1]
+            if (
+                not SUBJECT_CODE_RE.match(next_line.upper())
+                and not TOTALS_START_RE.match(next_line)
+                and not STUDENT_FIELD_LABEL_RE.match(next_line)
+                and not any(
+                    pattern.search(next_line)
+                    for key, pattern in FIELD_PATTERNS.items()
+                    if key != 'student_name'
+                )
+                and is_likely_student_name(next_line)
+            ):
+                student.student_name = collect_wrapped_student_name(lines, index + 1, next_line)
                 break
 
-    if not student.student_name:
+    if not student.student_name and not name_matches:
         # fallback: look for the first line after USN that is not a header or field label
         for idx, line in enumerate(lines):
             if STUDENT_BLOCK_START.match(line):
                 for candidate in lines[idx + 1: idx + 8]:
                     if not candidate:
                         continue
+                    if SUBJECT_CODE_RE.match(candidate.upper()) or TOTALS_START_RE.match(candidate):
+                        break
+                    if STUDENT_FIELD_LABEL_RE.match(candidate):
+                        continue
                     if is_likely_header_value(candidate):
                         continue
                     if any(pattern.search(candidate) for pattern in FIELD_PATTERNS.values()):
                         continue
-                    student.student_name = normalize_field_value(candidate)
-                    break
+                    if is_likely_student_name(candidate):
+                        student.student_name = normalize_field_value(candidate)
+                        break
                 break
 
     subject_section_start = 0

@@ -107,6 +107,80 @@
 .analysis-actions .btn-pdf { background: #dc2626; }
 .analysis-actions .btn-pdf:hover:not(:disabled) { background: #b91c1c; }
 
+.btn-subject-analysis {
+  border: 1px solid rgba(143, 177, 255, 0.3);
+  background: rgba(42, 82, 145, 0.38);
+  color: #e7eefb;
+}
+.btn-subject-analysis:hover { background: rgba(54, 105, 184, 0.55); }
+.app-nav-header > button { width: auto; min-height: 42px; }
+.subject-analysis-shell { padding-top: 32px; }
+.subject-analysis-heading { margin: 8px 0 24px; }
+.subject-analysis-heading h1 { margin: 4px 0 8px; font-size: 2rem; }
+.subject-analysis-heading > p:last-child { margin: 0; color: #aebdd8; }
+.subject-analysis-eyebrow { margin: 0; color: #80baff; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.subject-upload-panel { margin-bottom: 20px; }
+.subject-upload-panel h2 { margin: 0; }
+.subject-upload-form { display: grid; gap: 16px; }
+.subject-upload-form label { color: #dfe9ff; font-weight: 600; }
+.subject-analysis-dropzone { position: relative; }
+.dropzone.subject-analysis-dropzone input { display: block; position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; opacity: 0; cursor: pointer; }
+.subject-analysis-dropzone:focus-within { outline: 3px solid rgba(106, 173, 255, 0.7); outline-offset: 2px; border-color: #8dbbff; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.subject-upload-form button,
+.subject-download-button { min-height: 42px; white-space: nowrap; }
+.subject-analysis-error { grid-column: 1 / -1; margin: 0; }
+.selected-ledger-name { color: #aebdd8; font-size: 0.9rem; }
+.subject-analysis-error { color: #ffb4b4; }
+.subject-analysis-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: end; gap: 16px; margin: 20px 0 16px; }
+.subject-export-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; min-width: 0; }
+.subject-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; min-width: 0; width: 100%; }
+.subject-filter-control { display: grid; gap: 8px; min-width: 0; }
+.subject-filter-control label { color: #dfe9ff; font-weight: 600; }
+.subject-filter-control select { width: 100%; min-width: 0; max-width: 100%; min-height: 42px; padding: 8px 12px; border: 1px solid rgba(143, 177, 255, 0.3); border-radius: 8px; background: #101d2f; color: #edf5ff; }
+.subject-filter-control select:focus-visible,
+.subject-upload-form input:focus-visible,
+.subject-upload-form button:focus-visible,
+.subject-download-button:focus-visible,
+.btn-subject-analysis:focus-visible { outline: 3px solid rgba(106, 173, 255, 0.7); outline-offset: 2px; }
+.subject-download-button { background: #2376d2; }
+.subject-download-button:hover { background: #1e65b5; }
+.subject-download-button:disabled { opacity: 0.65; cursor: wait; }
+.subject-csv-button { background: #1f4d7a; }
+.subject-csv-button:hover { background: #193e63; }
+.subject-analysis-results { margin-top: 18px; }
+.subject-result-heading { margin-bottom: 16px; }
+.subject-result-heading p { margin: 0 0 4px; color: #aebdd8; }
+.subject-result-heading h2 { margin: 0 0 4px; }
+.subject-result-heading span { color: #aebdd8; font-size: 0.9rem; }
+.subject-metrics-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+.subject-metrics-grid div { display: grid; gap: 8px; padding: 14px; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; background: rgba(9, 18, 34, 0.92); }
+.subject-metrics-grid span { color: #aebdd8; font-size: 0.84rem; }
+.subject-metrics-grid strong { color: #edf5ff; font-size: 1.25rem; }
+.subject-records-wrapper { margin-top: 0; }
+.subject-records-table { width: 100%; min-width: 850px; border-collapse: collapse; background: #fff; color: #111827; }
+.subject-records-table th,
+.subject-records-table td { padding: 10px 12px; border: 1px solid #d1d5db; text-align: left; }
+.subject-records-table th { background: #f3f4f6; font-weight: 700; }
+.subject-records-table td:nth-child(n + 4) { text-align: center; }
+@media (max-width: 900px) {
+  .subject-metrics-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 1100px) {
+  .subject-analysis-toolbar { grid-template-columns: minmax(0, 1fr); }
+  .subject-export-actions { justify-content: flex-start; }
+}
+@media (max-width: 640px) {
+  .app-nav-header { flex-wrap: wrap; }
+  .subject-upload-form { grid-template-columns: 1fr; }
+  .subject-upload-form button { width: 100%; }
+  .subject-analysis-toolbar { align-items: stretch; }
+  .subject-filters { grid-template-columns: 1fr; }
+  .subject-export-actions { flex-direction: column; }
+  .subject-download-button { width: 100%; }
+  .subject-metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 .summary-table th,
 .performers-table th,
 .verification-table th,

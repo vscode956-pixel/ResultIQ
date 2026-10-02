@@ -1,10 +1,23 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './analysis.css';
 import ReportDemographicsTable from './ReportDemographicsTable';
 import soundaryaLogo from './assets/Untitled_design.png';
 import LandingPage from './LandingPage';
+import SubjectAnalysis from './SubjectAnalysis';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
+const DEFAULT_LOGIN = {
+  username: import.meta.env.VITE_LOGIN_USERNAME || 'admin',
+  password: import.meta.env.VITE_LOGIN_PASSWORD || 'ResultIQ@2026',
+};
+
+const getStoredAuth = () => {
+  try {
+    return localStorage.getItem('resultiq_auth') === 'true';
+  } catch {
+    return false;
+  }
+};
 
 const initialState = {
   excel: null,
@@ -21,7 +34,18 @@ const initialState = {
 function App() {
   const [state, setState] = useState(initialState);
   const [subjectEdits, setSubjectEdits] = useState([]);
-  const [view, setView] = useState('landing');
+  const [isAuthenticated, setIsAuthenticated] = useState(getStoredAuth());
+  const [view, setView] = useState(getStoredAuth() ? 'app' : 'landing');
+  const [loginForm, setLoginForm] = useState({ username: '', password: '' });
+  const [loginError, setLoginError] = useState('');
+  const [formErrors, setFormErrors] = useState({});
+  const [activeTool, setActiveTool] = useState('standard');
+
+  useEffect(() => {
+    if (!isAuthenticated && view === 'app') {
+      setView('login');
+    }
+  }, [isAuthenticated, view]);
 
   const excelReady = state.excelResult?.valid === true;
   const pdfReady = state.pdfResult?.valid === true;
@@ -183,27 +207,221 @@ function App() {
     return 'Awaiting validation';
   }, [state.excelResult, state.pdfResult]);
 
+  function handleLoginSubmit(event) {
+    event.preventDefault();
+    const submittedUsername = loginForm.username.trim();
+    const submittedPassword = loginForm.password;
+
+    const nextErrors = {};
+
+    if (!submittedUsername) {
+      nextErrors.username = 'Please enter your username.';
+    }
+
+    if (!submittedPassword) {
+      nextErrors.password = 'Please enter your password.';
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setFormErrors(nextErrors);
+      setLoginError('');
+      return;
+    }
+
+    setFormErrors({});
+
+    if (submittedUsername === DEFAULT_LOGIN.username && submittedPassword === DEFAULT_LOGIN.password) {
+      localStorage.setItem('resultiq_auth', 'true');
+      setIsAuthenticated(true);
+      setLoginError('');
+      setView('app');
+      return;
+    }
+
+    setLoginError('Invalid username or password. Please use the authorized login details.');
+  }
+
+  function handleFieldChange(field, value) {
+    setLoginForm((prev) => ({ ...prev, [field]: value }));
+    setFormErrors((prev) => ({ ...prev, [field]: '' }));
+    setLoginError('');
+  }
+
+  function InputIcon({ type = 'user' }) {
+    if (type === 'password') {
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 10V8a5 5 0 0 1 10 0v2M6 10h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="12" cy="14.5" r="1.5" fill="currentColor" />
+        </svg>
+      );
+    }
+
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M5 20a7 7 0 0 1 14 0" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('resultiq_auth');
+    setIsAuthenticated(false);
+    setLoginForm({ username: '', password: '' });
+    setLoginError('');
+    setView('login');
+  }
+
   if (view === 'landing') {
-    return <LandingPage onGetStarted={() => setView('app')} />;
+    return <LandingPage onGetStarted={() => setView('login')} />;
+  }
+
+  if (view === 'login') {
+    return (
+      <div className="auth-shell">
+        <div className="auth-layout">
+          <section className="auth-card" aria-labelledby="login-title">
+            <div className="brand-row" aria-label="ResultIQ branding">
+              <div className="brand-mark" aria-hidden="true">
+                <span className="bar bar-a" />
+                <span className="bar bar-b" />
+                <span className="bar bar-c" />
+              </div>
+              <div className="brand-name" aria-label="ResultIQ">
+                <span className="brand-first">Result</span>
+                <span className="brand-second">IQ</span>
+              </div>
+            </div>
+
+            <p className="brand-tagline">Analyze • Visualize • Empower</p>
+
+            <div className="auth-header">
+              <span className="auth-badge">Secure Access</span>
+              <h1 id="login-title">Login to ResultIQ</h1>
+            </div>
+
+            <form className="auth-form" onSubmit={handleLoginSubmit} noValidate>
+              <div className="field-group">
+                <label htmlFor="username">Username</label>
+                <div className={`input-wrap ${formErrors.username ? 'is-invalid' : ''}`}>
+                  <span className="input-icon" aria-hidden="true">
+                    <InputIcon type="user" />
+                  </span>
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    value={loginForm.username}
+                    onChange={(event) => handleFieldChange('username', event.target.value)}
+                    placeholder="Enter username"
+                    autoComplete="username"
+                    aria-invalid={Boolean(formErrors.username || loginError)}
+                  />
+                </div>
+                {formErrors.username && <p className="field-error">{formErrors.username}</p>}
+              </div>
+
+              <div className="field-group">
+                <label htmlFor="password">Password</label>
+                <div className={`input-wrap ${formErrors.password ? 'is-invalid' : ''}`}>
+                  <span className="input-icon" aria-hidden="true">
+                    <InputIcon type="password" />
+                  </span>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={loginForm.password}
+                    onChange={(event) => handleFieldChange('password', event.target.value)}
+                    placeholder="Enter password"
+                    autoComplete="current-password"
+                    aria-invalid={Boolean(formErrors.password || loginError)}
+                  />
+                </div>
+                {formErrors.password && <p className="field-error">{formErrors.password}</p>}
+              </div>
+
+              {loginError && <div className="auth-error" role="alert">{loginError}</div>}
+
+              <button type="submit" className="auth-submit-btn">
+                <span>Login</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </form>
+
+            <div className="auth-divider" aria-hidden="true">
+              <span>OR</span>
+            </div>
+
+            <button className="btn-back-home auth-back" onClick={() => setView('landing')} type="button">
+              <span aria-hidden="true">←</span>
+              <span>Back to Home</span>
+            </button>
+          </section>
+
+          <aside className="auth-info-panel" aria-label="Subscription access information">
+            <div className="info-visual" aria-hidden="true">
+              <div className="visual-window visual-window-one" />
+              <div className="visual-window visual-window-two" />
+              <div className="visual-cap" />
+            </div>
+
+            <div className="info-copy">
+              <div className="info-header">
+                <div className="info-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 10.5V8.5A2 2 0 0 1 6 6.5h12a2 2 0 0 1 2 2v2M5 10.5h14v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-8Z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M9 14h6M9 17h6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
+                </div>
+                <h2>Need subscription access for your institution or department?</h2>
+              </div>
+
+              <p>Contact the developer to request a valid subscription ID and institutional access.</p>
+            </div>
+
+            <div className="info-contact-list">
+              <div className="contact-row">
+                <span className="contact-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M7 8.5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-7Z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M8 9.5 12 13l4-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+                <span><strong>Developer:</strong> Deepu K C</span>
+              </div>
+              <div className="contact-row">
+                <span className="contact-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5v7A2.5 2.5 0 0 1 17.5 18h-11A2.5 2.5 0 0 1 4 15.5v-7Z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M5 8.5 12 13l7-4.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+                <span><strong>Email:</strong> deepukc2526@gmail.com</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTool === 'subjects') {
+    return <SubjectAnalysis onBack={() => setActiveTool('standard')} />;
   }
 
   return (
     <div className="app-shell">
       <div className="app-nav-header">
         <button className="btn-back-home" onClick={() => setView('landing')}>← Back to Home</button>
+        <button className="btn-subject-analysis" onClick={() => setActiveTool('subjects')} type="button">Subject-wise Analysis</button>
+        <button className="btn-logout" onClick={handleLogout}>Logout</button>
       </div>
       <div className="hero split-hero">
         <div className="hero-copy">
           <h1>ResultIQ</h1>
           <p className="subtext">Transforming Examination Data into Actionable Insights</p>
-        </div>
-
-        <div className="hero-branding">
-          <img className="institution-logo" src={soundaryaLogo} alt="Soundarya Institute of Management and Science logo" />
-          <div className="hero-branding-text">
-            <p className="institution">SOUNDARYA INSTITUTE OF MANAGEMENT AND SCIENCE</p>
-            <p className="tagline">Developed by Department of Computer Science</p>
-          </div>
         </div>
       </div>
 

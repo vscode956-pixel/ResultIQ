@@ -131,6 +131,130 @@ def summarize_subjects(merged_students):
     return sorted(subject_summary.values(), key=lambda x: (x['name'] or x['code']))
 
 
+def build_subject_ledger_analysis(parsed_pdf):
+    subjects_by_code = {}
+    for student in parsed_pdf.students:
+        for parsed_subject in student.subjects:
+            subject = parsed_subject.to_dict()
+            code = subject.get('subject_code') or 'UNKNOWN'
+            entry = subjects_by_code.setdefault(code, {
+                'code': code,
+                'name': subject.get('subject_name'),
+                'passed': 0,
+                'failed': 0,
+                'absent': 0,
+                'centum': 0,
+                'topper_marks': None,
+                'records': [],
+            })
+            if not entry['name'] and subject.get('subject_name'):
+                entry['name'] = subject['subject_name']
+
+            marks = subject.get('total_marks')
+            max_marks = subject.get('max_marks')
+            result = (subject.get('result') or '').strip().upper()
+            absent = result in {'AB', 'ABSENT'} or marks is None
+            failed = result in {'FAIL', 'FAILED', 'RETEST'}
+
+            if absent:
+                entry['absent'] += 1
+            elif failed:
+                entry['failed'] += 1
+            else:
+                entry['passed'] += 1
+
+            if marks is not None and max_marks is not None and marks == max_marks:
+                entry['centum'] += 1
+            if marks is not None and (entry['topper_marks'] is None or marks > entry['topper_marks']):
+                entry['topper_marks'] = marks
+
+            entry['records'].append({
+                'usn': student.usn,
+                'name': student.student_name,
+                'cia': subject.get('cia'),
+                'see': subject.get('see'),
+                'grace': subject.get('grace'),
+                'marks': marks,
+                'max_marks': max_marks,
+                'credits': subject.get('credits'),
+                'grade_point': subject.get('grade_point'),
+                'credit_points': subject.get('credit_points'),
+                'letter_grade': subject.get('letter_grade'),
+                'result': subject.get('result'),
+            })
+
+    result_subjects = []
+    for entry in subjects_by_code.values():
+        attempted = entry['passed'] + entry['failed']
+        entry['pass_percentage'] = round((entry['passed'] / attempted) * 100) if attempted else 0
+        entry['records'].sort(key=lambda record: record.get('usn') or '')
+        result_subjects.append(entry)
+
+    return sorted(result_subjects, key=lambda item: (item['name'] or item['code'], item['code']))
+
+
+def build_ledger_report_summary(parsed_pdf):
+    summary = {
+        'appeared': 0,
+        'passed': 0,
+        'failed': 0,
+        'distinction': 0,
+        'first_class': 0,
+        'second_class': 0,
+        'pass_class': 0,
+        'pass_percentage': 0,
+    }
+    students = []
+
+    for parsed_student in parsed_pdf.students:
+        subjects = [subject.to_dict() for subject in parsed_student.subjects]
+        if parsed_student.totals and parsed_student.totals.total_marks is not None:
+            total_marks = parsed_student.totals.total_marks
+        else:
+            total_marks = sum((subject.get('total_marks') or 0) for subject in subjects) or None
+        if parsed_student.totals and parsed_student.totals.max_marks is not None:
+            max_marks = parsed_student.totals.max_marks
+        else:
+            max_marks = sum((subject.get('max_marks') or 0) for subject in subjects) or None
+
+        percentage = round((total_marks / max_marks) * 100, 2) if total_marks is not None and max_marks else None
+        classification = classify_student(total_marks, max_marks, parsed_student.overall_result)
+        students.append({
+            'usn': parsed_student.usn,
+            'name': parsed_student.student_name,
+            'overall_result': parsed_student.overall_result,
+            'total_marks': total_marks,
+            'max_marks': max_marks,
+            'percentage': percentage,
+            'classification': classification,
+            'subjects': subjects,
+        })
+
+        summary['appeared'] += 1
+        if classification == 'failed' or classification == 'unknown':
+            summary['failed'] += 1
+        else:
+            summary['passed'] += 1
+            summary[classification] += 1
+
+    summary['pass_percentage'] = round((summary['passed'] / summary['appeared']) * 100) if summary['appeared'] else 0
+    ranked = create_ranked_performers(students)
+    rank_labels = {1: '🥇', 2: '🥈', 3: '🥉'}
+    top_performers = [
+        {
+            'rank': student['rank'],
+            'label': rank_labels.get(student['rank'], str(student['rank'])),
+            'name': student['name'],
+            'usn': student['usn'],
+            'marks': student['total_marks'],
+            'percentage': student['percentage'],
+        }
+        for student in ranked if student['rank'] <= 3
+    ]
+
+    return summary, top_performers, compute_centum_achievers(students)
+
+
 def compute_centum_achievers(merged_students):
     centum_achievers = []
     for student in merged_students:
@@ -455,6 +579,49 @@ def analyze():
                 os.remove(path)
             except OSError:
                 pass
+
+
+@app.route('/api/analyze/subjects', methods=['POST'])
+def analyze_subjects_from_pdf():
+    pdf_file = request.files.get('pdf')
+    if not pdf_file or not pdf_file.filename:
+        return jsonify({'error': 'No PDF file provided.'}), 400
+
+    pdf_suffix = Path(pdf_file.filename).suffix.lower()
+    if pdf_suffix != '.pdf':
+        return jsonify({'error': 'Invalid PDF file format.'}), 400
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=pdf_suffix) as pdf_temp:
+        pdf_file.save(pdf_temp.name)
+        pdf_path = pdf_temp.name
+
+    try:
+        parsed = parse_pdf(pdf_path)
+        if parsed.errors:
+            return jsonify({'error': 'PDF parse failed.', 'details': parsed.errors}), 400
+
+        subjects = build_subject_ledger_analysis(parsed)
+        if not subjects:
+            return jsonify({'error': 'No subject marks were found in the PDF.'}), 400
+        report_summary, top_performers, centum_achievers = build_ledger_report_summary(parsed)
+
+        return jsonify({
+            'program': parsed.metadata.program,
+            'semester': parsed.metadata.semester,
+            'academic_year': parsed.metadata.academic_year,
+            'exam_month': parsed.metadata.exam_month,
+            'result_date': parsed.metadata.result_date,
+            'students': len(parsed.students),
+            'subjects': subjects,
+            'report_summary': report_summary,
+            'top_performers': top_performers,
+            'centum_achievers': centum_achievers,
+        })
+    finally:
+        try:
+            os.remove(pdf_path)
+        except OSError:
+            pass
 
 
 def qname(namespace, tag):
@@ -944,6 +1111,30 @@ def export_report():
         import traceback
         traceback.print_exc()
         return jsonify({'error': f'Report generation failed: {str(e)}'}), 500
+
+
+@app.route('/api/export-subject-report', methods=['POST'])
+def export_subject_report():
+    data = request.get_json()
+    if not isinstance(data, dict):
+        return jsonify({'error': 'No subject report data provided.'}), 400
+
+    subject = data.get('subject')
+    if not isinstance(subject, dict) or not subject.get('code') or not isinstance(subject.get('records'), list):
+        return jsonify({'error': 'A valid subject analysis is required.'}), 400
+
+    try:
+        renderer = WordReportRenderer()
+        renderer.render_subject(data)
+        safe_code = ''.join(character if character.isalnum() or character in {'-', '_'} else '_' for character in str(subject['code']))
+        return send_file(
+            io.BytesIO(renderer.response()),
+            mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            as_attachment=True,
+            download_name=f'Subject_Analysis_{safe_code}.docx',
+        )
+    except Exception as error:
+        return jsonify({'error': f'Subject report generation failed: {str(error)}'}), 500
 
 
 @app.route('/api/export-pdf', methods=['POST'])

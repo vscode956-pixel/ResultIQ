@@ -44,6 +44,11 @@ class WordReportRenderer:
         self._output_bytes = self._build_document_bytes(mapped_data)
         return self
 
+    def render_subject(self, context: Dict[str, Any]) -> WordReportRenderer:
+        self.context = context or {}
+        self._output_bytes = self._build_subject_document_bytes(self.context)
+        return self
+
     def save(self, path: str | Path) -> Path:
         output_path = Path(path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -94,13 +99,14 @@ class WordReportRenderer:
         body.append(self._build_subject_summary_table(mapped_data.get('subjects', [])))
         body.append(self._make_p('', space_after=120))
 
-        # 6. Section IV: Performance Analysis by Demographics
-        body.append(self._make_p('IV. Performance Analysis by Demographics', bold=True, size=26, color='1E3A8A', space_before=160, space_after=100))
-        body.append(self._build_demographics_table(mapped_data.get('demographics', {}), program_name=mapped_data.get('metadata', {}).get('program')))
-        body.append(self._make_p('', space_after=120))
+        has_demographics = bool(mapped_data.get('demographics'))
+        if has_demographics:
+            body.append(self._make_p('IV. Performance Analysis by Demographics', bold=True, size=26, color='1E3A8A', space_before=160, space_after=100))
+            body.append(self._build_demographics_table(mapped_data.get('demographics', {}), program_name=mapped_data.get('metadata', {}).get('program')))
+            body.append(self._make_p('', space_after=120))
 
-        # 7. Section V: Centum Achievers
-        body.append(self._make_p('V. Subject-wise Centum Achievers', bold=True, size=26, color='1E3A8A', space_before=160, space_after=100))
+        centum_section_number = 'V' if has_demographics else 'IV'
+        body.append(self._make_p(f'{centum_section_number}. Subject-wise Centum Achievers', bold=True, size=26, color='1E3A8A', space_before=160, space_after=100))
         body.append(self._build_centum_table(mapped_data.get('centum_achievers', [])))
         body.append(self._make_p('', space_after=200))
 
@@ -114,6 +120,82 @@ class WordReportRenderer:
 
         xml_bytes = ET.tostring(document, encoding='utf-8', xml_declaration=True)
 
+        return self._package_document(xml_bytes, logo_bytes)
+
+    def _build_subject_document_bytes(self, context: Dict[str, Any]) -> bytes:
+        metadata = context.get('metadata') if isinstance(context.get('metadata'), dict) else {}
+        subject = context.get('subject') if isinstance(context.get('subject'), dict) else {}
+        records = subject.get('records') if isinstance(subject.get('records'), list) else []
+
+        document = ET.Element(qname(W_NS, 'document'))
+        body = ET.SubElement(document, qname(W_NS, 'body'))
+        logo_bytes, logo_run = self._prepare_logo()
+        body.append(self._make_header_table(metadata, logo_run))
+        body.append(self._make_p('', space_after=100))
+        body.append(self._make_p('SUBJECT-WISE RESULT ANALYSIS REPORT', bold=True, size=36, color='1E3A8A', align='center', space_after=100))
+
+        meta_info = (
+            f"Program: {metadata.get('program') or 'N/A'}   |   "
+            f"Semester: {metadata.get('semester') or 'N/A'}   |   "
+            f"Result Date: {metadata.get('result_date') or 'N/A'}   |   "
+            f"Academic Year: {metadata.get('academic_year') or 'N/A'}"
+        )
+        if metadata.get('cohort_year'):
+            meta_info += f"   |   Registration Year: {metadata['cohort_year']}"
+        body.append(self._make_p(meta_info, bold=True, size=20, color='374151', align='center', space_after=200))
+        body.append(self._make_p(
+            f"Subject: {subject.get('name') or subject.get('code') or 'N/A'} ({subject.get('code') or 'N/A'})",
+            bold=True,
+            size=28,
+            color='1E3A8A',
+            space_before=160,
+            space_after=100,
+        ))
+        body.append(self._make_p('I. Subject Summary', bold=True, size=26, color='1E3A8A', space_before=120, space_after=100))
+        body.append(self._make_table(
+            ['Measure', 'Value'],
+            [
+                ['Students', len(records)],
+                ['Passed', subject.get('passed', 0)],
+                ['Failed', subject.get('failed', 0)],
+                ['Absent', subject.get('absent', 0)],
+                ['Centum', subject.get('centum', 0)],
+                ['Pass Percentage', f"{subject.get('pass_percentage', 0)}%"],
+                ['Topper Marks', subject.get('topper_marks') if subject.get('topper_marks') is not None else 'N/A'],
+            ],
+            col_widths=[7700, 7700],
+        ))
+        body.append(self._make_p('', space_after=120))
+        body.append(self._make_p('II. Student-wise Marks', bold=True, size=26, color='1E3A8A', space_before=160, space_after=100))
+
+        student_rows = []
+        for index, record in enumerate(records, start=1):
+            student_rows.append([
+                index,
+                record.get('usn') or 'N/A',
+                record.get('name') or 'N/A',
+                record.get('cia') if record.get('cia') is not None else 'N/A',
+                record.get('see') if record.get('see') is not None else 'N/A',
+                record.get('grace') if record.get('grace') is not None else 'N/A',
+                record.get('marks') if record.get('marks') is not None else 'N/A',
+                record.get('max_marks') if record.get('max_marks') is not None else 'N/A',
+                record.get('result') or ('ABSENT' if record.get('marks') is None else 'N/A'),
+            ])
+        body.append(self._make_table(
+            ['Sl. No', 'Registration No. (USN)', 'Student Name', 'CIA', 'SEE', 'Grace', 'Total', 'Maximum', 'Result'],
+            student_rows or [['—', '—', 'No student records available', '—', '—', '—', '—', '—', '—']],
+            col_widths=[800, 2500, 4300, 1100, 1100, 900, 1200, 1000, 2500],
+        ))
+        body.append(self._make_p('', space_after=200))
+        body.append(self._build_signatures_table())
+
+        sectPr = ET.Element(qname(W_NS, 'sectPr'))
+        ET.SubElement(sectPr, qname(W_NS, 'pgSz'), {qname(W_NS, 'w'): '16838', qname(W_NS, 'h'): '11906', qname(W_NS, 'orient'): 'landscape'})
+        body.append(sectPr)
+        xml_bytes = ET.tostring(document, encoding='utf-8', xml_declaration=True)
+        return self._package_document(xml_bytes, logo_bytes)
+
+    def _package_document(self, xml_bytes: bytes, logo_bytes: Optional[bytes]) -> bytes:
         output = io.BytesIO()
         with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as docx:
             docx.writestr('[Content_Types].xml', self._content_types_xml())
