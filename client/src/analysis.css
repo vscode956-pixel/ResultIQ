@@ -122,6 +122,12 @@
 .subject-upload-panel { margin-bottom: 20px; }
 .subject-upload-panel h2 { margin: 0; }
 .subject-upload-form { display: grid; gap: 16px; }
+.subject-upload-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.subject-upload-option { display: grid; gap: 8px; min-width: 0; }
+.subject-upload-option-title { display: flex; align-items: center; gap: 8px; }
+.subject-upload-required,
+.subject-upload-optional { color: #aebdd8; font-size: 0.8rem; font-weight: 500; }
+.subject-upload-help { margin: 0; color: #aebdd8; font-size: 0.9rem; }
 .subject-upload-form label { color: #dfe9ff; font-weight: 600; }
 .subject-analysis-dropzone { position: relative; }
 .dropzone.subject-analysis-dropzone input { display: block; position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; opacity: 0; cursor: pointer; }
@@ -132,6 +138,11 @@
 .subject-analysis-error { grid-column: 1 / -1; margin: 0; }
 .selected-ledger-name { color: #aebdd8; font-size: 0.9rem; }
 .subject-analysis-error { color: #ffb4b4; }
+.subject-overall-summary { margin: 20px 0; }
+.subject-overall-summary h3 { margin: 0; }
+.subject-overall-summary .summary-table-wrapper { margin-top: 12px; }
+.subject-overall-summary-table { min-width: 1050px; }
+.subject-overall-summary-table th { vertical-align: middle; }
 .subject-analysis-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: end; gap: 16px; margin: 20px 0 16px; }
 .subject-export-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; min-width: 0; }
 .subject-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; min-width: 0; width: 100%; }
@@ -172,7 +183,7 @@
 }
 @media (max-width: 640px) {
   .app-nav-header { flex-wrap: wrap; }
-  .subject-upload-form { grid-template-columns: 1fr; }
+  .subject-upload-options { grid-template-columns: 1fr; }
   .subject-upload-form button { width: 100%; }
   .subject-analysis-toolbar { align-items: stretch; }
   .subject-filters { grid-template-columns: 1fr; }
@@ -1314,4 +1325,3 @@
   font-weight: 700;
   color: #f5f8ff;
 }
-

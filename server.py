@@ -51,6 +51,17 @@ def build_gender_key(value: Optional[str]) -> str:
     return 'boys'
 
 
+def ledger_gender_group(value: Optional[str]) -> str:
+    if not value:
+        return ''
+    normalized = str(value).strip().lower()
+    if normalized in {'f', 'female', 'girl', 'girls', 'woman', 'women'}:
+        return 'girls'
+    if normalized in {'m', 'male', 'boy', 'boys', 'man', 'men'}:
+        return 'boys'
+    return ''
+
+
 def classify_student(total_marks: Optional[int], max_marks: Optional[int], overall_result: Optional[str]) -> str:
     if overall_result and isinstance(overall_result, str) and overall_result.strip().upper() in {'FAIL', 'FAILED', 'RETEST'}:
         return 'failed'
@@ -193,18 +204,36 @@ def build_subject_ledger_analysis(parsed_pdf):
     return sorted(result_subjects, key=lambda item: (item['name'] or item['code'], item['code']))
 
 
-def build_ledger_report_summary(parsed_pdf):
-    summary = {
-        'appeared': 0,
-        'passed': 0,
-        'failed': 0,
-        'distinction': 0,
-        'first_class': 0,
-        'second_class': 0,
-        'pass_class': 0,
-        'pass_percentage': 0,
-    }
+def build_ledger_report_summary(parsed_pdf, student_names=None, student_genders=None):
+    def empty_summary():
+        return {
+            'appeared': 0,
+            'passed': 0,
+            'failed': 0,
+            'distinction': 0,
+            'first_class': 0,
+            'second_class': 0,
+            'pass_class': 0,
+            'pass_percentage': 0,
+        }
+
+    def summarize_group(group):
+        group['pass_percentage'] = round((group['passed'] / group['appeared']) * 100, 2) if group['appeared'] else 0
+        return {
+            'appeared': group['appeared'],
+            'distinction': group['distinction'],
+            'first_class': group['first_class'],
+            'second_class': group['second_class'],
+            'pass_class': group['pass_class'],
+            'passed': group['passed'],
+            'failed': group['failed'],
+            'pass_percentage': group['pass_percentage'],
+        }
+
+    summary = empty_summary()
+    gender_summaries = {'boys': empty_summary(), 'girls': empty_summary()}
     students = []
+    summary_students = []
 
     for parsed_student in parsed_pdf.students:
         subjects = [subject.to_dict() for subject in parsed_student.subjects]
@@ -219,9 +248,10 @@ def build_ledger_report_summary(parsed_pdf):
 
         percentage = round((total_marks / max_marks) * 100, 2) if total_marks is not None and max_marks else None
         classification = classify_student(total_marks, max_marks, parsed_student.overall_result)
+        usn = normalize_usn(parsed_student.usn)
         students.append({
             'usn': parsed_student.usn,
-            'name': parsed_student.student_name,
+            'name': (student_names or {}).get(usn) or parsed_student.student_name,
             'overall_result': parsed_student.overall_result,
             'total_marks': total_marks,
             'max_marks': max_marks,
@@ -231,13 +261,29 @@ def build_ledger_report_summary(parsed_pdf):
         })
 
         summary['appeared'] += 1
-        if classification == 'failed' or classification == 'unknown':
-            summary['failed'] += 1
-        else:
-            summary['passed'] += 1
-            summary[classification] += 1
+        groups = [summary]
+        gender_key = ledger_gender_group((student_genders or {}).get(usn))
+        summary_students.append({
+            'usn': parsed_student.usn,
+            'classification': classification,
+            'gender': (gender_key or None) if student_genders is not None else None,
+        })
+        if gender_key in gender_summaries:
+            gender_summaries[gender_key]['appeared'] += 1
+            groups.append(gender_summaries[gender_key])
+        for group in groups:
+            if classification == 'failed' or classification == 'unknown':
+                group['failed'] += 1
+            else:
+                group['passed'] += 1
+                group[classification] += 1
 
-    summary['pass_percentage'] = round((summary['passed'] / summary['appeared']) * 100) if summary['appeared'] else 0
+    summarize_group(summary)
+    overall_summary = {
+        'boys': summarize_group(gender_summaries['boys']) if student_genders is not None else None,
+        'girls': summarize_group(gender_summaries['girls']) if student_genders is not None else None,
+        'total': summarize_group(summary),
+    }
     ranked = create_ranked_performers(students)
     rank_labels = {1: '🥇', 2: '🥈', 3: '🥉'}
     top_performers = [
@@ -252,7 +298,7 @@ def build_ledger_report_summary(parsed_pdf):
         for student in ranked if student['rank'] <= 3
     ]
 
-    return summary, top_performers, compute_centum_achievers(students)
+    return summary, top_performers, compute_centum_achievers(students), overall_summary, summary_students
 
 
 def compute_centum_achievers(merged_students):
@@ -591,11 +637,51 @@ def analyze_subjects_from_pdf():
     if pdf_suffix != '.pdf':
         return jsonify({'error': 'Invalid PDF file format.'}), 400
 
+    excel_file = request.files.get('excel')
+    excel_path = None
+    student_names = None
+    student_genders = None
+    if excel_file and excel_file.filename:
+        excel_suffix = Path(excel_file.filename).suffix.lower()
+        if excel_suffix not in {'.xlsx', '.xlsm'}:
+            return jsonify({'error': 'Invalid Student Master format. Upload an .xlsx or .xlsm file.'}), 400
+        with tempfile.NamedTemporaryFile(delete=False, suffix=excel_suffix) as excel_temp:
+            excel_file.save(excel_temp.name)
+            excel_path = excel_temp.name
+
     with tempfile.NamedTemporaryFile(delete=False, suffix=pdf_suffix) as pdf_temp:
         pdf_file.save(pdf_temp.name)
         pdf_path = pdf_temp.name
 
     try:
+        if excel_path:
+            parsed_excel = parse_students(excel_path)
+            if parsed_excel.get('error'):
+                return jsonify({'error': parsed_excel.get('message', 'Unable to read the Student Master file.')}), 400
+            mapping = parsed_excel.get('mapping', {})
+            missing_headers = [
+                header for field, header in (
+                    ('Student Name', 'StudentName'),
+                    ('USN or registration number', 'USN'),
+                    ('Gender', 'Gender'),
+                )
+                if mapping.get(header, {}).get('index') is None
+            ]
+            if missing_headers:
+                return jsonify({
+                    'error': f"Student Master is missing required columns: {', '.join(missing_headers)}."
+                }), 400
+            student_names = {
+                normalize_usn(row.get('USN')): row.get('StudentName')
+                for row in parsed_excel.get('rows', [])
+                if normalize_usn(row.get('USN')) and row.get('StudentName')
+            }
+            student_genders = {
+                normalize_usn(row.get('USN')): row.get('Gender')
+                for row in parsed_excel.get('rows', [])
+                if normalize_usn(row.get('USN')) and row.get('Gender')
+            }
+
         parsed = parse_pdf(pdf_path)
         if parsed.errors:
             return jsonify({'error': 'PDF parse failed.', 'details': parsed.errors}), 400
@@ -603,7 +689,15 @@ def analyze_subjects_from_pdf():
         subjects = build_subject_ledger_analysis(parsed)
         if not subjects:
             return jsonify({'error': 'No subject marks were found in the PDF.'}), 400
-        report_summary, top_performers, centum_achievers = build_ledger_report_summary(parsed)
+        if student_names:
+            for subject in subjects:
+                for record in subject['records']:
+                    record['name'] = student_names.get(normalize_usn(record.get('usn'))) or record['name']
+        report_summary, top_performers, centum_achievers, overall_summary, summary_students = build_ledger_report_summary(
+            parsed,
+            student_names,
+            student_genders,
+        )
 
         return jsonify({
             'program': parsed.metadata.program,
@@ -612,16 +706,23 @@ def analyze_subjects_from_pdf():
             'exam_month': parsed.metadata.exam_month,
             'result_date': parsed.metadata.result_date,
             'students': len(parsed.students),
+            'student_master_matched': sum(
+                1 for student in parsed.students if normalize_usn(student.usn) in (student_names or {})
+            ) if student_names is not None else None,
             'subjects': subjects,
             'report_summary': report_summary,
+            'overall_summary': overall_summary,
+            'summary_students': summary_students,
             'top_performers': top_performers,
             'centum_achievers': centum_achievers,
         })
     finally:
-        try:
-            os.remove(pdf_path)
-        except OSError:
-            pass
+        for path in (pdf_path, excel_path):
+            if path:
+                try:
+                    os.remove(path)
+                except OSError:
+                    pass
 
 
 def qname(namespace, tag):

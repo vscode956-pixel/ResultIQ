@@ -29,6 +29,19 @@ def qname(ns: str, tag: str) -> str:
     return f'{{{ns}}}{tag}'
 
 
+def add_narrow_page_margins(section_properties: ET.Element) -> None:
+    margin = '720'
+    ET.SubElement(section_properties, qname(W_NS, 'pgMar'), {
+        qname(W_NS, 'top'): margin,
+        qname(W_NS, 'right'): margin,
+        qname(W_NS, 'bottom'): margin,
+        qname(W_NS, 'left'): margin,
+        qname(W_NS, 'header'): '360',
+        qname(W_NS, 'footer'): '360',
+        qname(W_NS, 'gutter'): '0',
+    })
+
+
 class WordReportRenderer:
     def __init__(self, template_path: Optional[Path | str] = None):
         base_dir = Path(__file__).resolve().parent.parent
@@ -116,6 +129,7 @@ class WordReportRenderer:
         # Section Properties (A4 Landscape, 0.5 in margins)
         sectPr = ET.Element(qname(W_NS, 'sectPr'))
         ET.SubElement(sectPr, qname(W_NS, 'pgSz'), {qname(W_NS, 'w'): '16838', qname(W_NS, 'h'): '11906', qname(W_NS, 'orient'): 'landscape'})
+        add_narrow_page_margins(sectPr)
         body.append(sectPr)
 
         xml_bytes = ET.tostring(document, encoding='utf-8', xml_declaration=True)
@@ -201,6 +215,7 @@ class WordReportRenderer:
 
         sectPr = ET.Element(qname(W_NS, 'sectPr'))
         ET.SubElement(sectPr, qname(W_NS, 'pgSz'), {qname(W_NS, 'w'): '16838', qname(W_NS, 'h'): '11906', qname(W_NS, 'orient'): 'landscape'})
+        add_narrow_page_margins(sectPr)
         body.append(sectPr)
         xml_bytes = ET.tostring(document, encoding='utf-8', xml_declaration=True)
         return self._package_document(xml_bytes, logo_bytes)

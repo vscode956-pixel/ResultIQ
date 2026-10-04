@@ -37,6 +37,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(getStoredAuth());
   const [view, setView] = useState(getStoredAuth() ? 'app' : 'landing');
   const [loginForm, setLoginForm] = useState({ username: '', password: '' });
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [loginError, setLoginError] = useState('');
   const [formErrors, setFormErrors] = useState({});
   const [activeTool, setActiveTool] = useState('standard');
@@ -331,13 +332,28 @@ function App() {
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={isPasswordVisible ? 'text' : 'password'}
                     value={loginForm.password}
                     onChange={(event) => handleFieldChange('password', event.target.value)}
                     placeholder="Enter password"
                     autoComplete="current-password"
                     aria-invalid={Boolean(formErrors.password || loginError)}
                   />
+                  <button
+                    type="button"
+                    className="password-visibility-btn"
+                    onClick={() => setIsPasswordVisible((visible) => !visible)}
+                    aria-label={isPasswordVisible ? 'Hide password' : 'Show password'}
+                    aria-pressed={isPasswordVisible}
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.8" />
+                      {!isPasswordVisible && (
+                        <path d="m4 4 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                      )}
+                    </svg>
+                  </button>
                 </div>
                 {formErrors.password && <p className="field-error">{formErrors.password}</p>}
               </div>
